@@ -1,0 +1,49 @@
+create schema cafeteria;
+
+use cafeteria;
+
+create table categoria(
+	id_cat int not null primary key auto_increment,
+    nome_cat varchar(245) not null
+);
+
+create table adicionais(
+	id_adc int not null primary key auto_increment,
+    nome_adc varchar(245) not null,
+    valor_adc double
+);
+
+create table mesa(
+	id_mesa int not null primary key auto_increment,
+    numero_mesa int
+);
+
+create table comanda(
+	id_comanda int not null primary key auto_increment,
+    id_mesa int not null,
+    nome_cliente varchar(245),
+    paga ENUM('S', 'N') DEFAULT 'N',
+    valor_total double
+);
+
+create table login(
+	id_usu int not null primary key auto_increment,
+    login varchar(245) not null,
+    senha varchar(245) not null,
+    adm enum('S','N')
+);
+
+create table produto(
+	id_produto int not null primary key auto_increment,
+    nome_produto varchar(245) not null,
+    descricao varchar(245) not null,
+    valor double not null,
+    foto varchar(245) not null,
+    ativo enum ('S', 'N') not null,
+    id_adc INT, 
+	FOREIGN KEY (id_adc) REFERENCES adicionais(id_adc),
+    id_cat int,
+    foreign key (id_cat) references categoria(id_cat)
+);
+
+

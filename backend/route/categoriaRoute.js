@@ -1,26 +1,26 @@
 const express = require('express');
-const adicionaisController = require('../controller/adicionaisController');
+const categoriaController = require('../controller/categoriaController');
 const router = express.Router();
 
-const ctrl = new adicionaisController();
+const ctrl = new categoriaController();
 
 router.get('/listar', (req,res) =>{
-    // #swagger.tags = ['Adicionais']
-    // #swagger.summary = 'Lista os adicionais cadastrados'
+    // #swagger.tags = ['Categoria']
+    // #swagger.summary = 'Lista as categorias cadastradas'
 
     ctrl.listar(req,res);
 });
 
 router.post('/gravar', (req,res) =>{
-    // #swagger.tags = ['Adicionais']
-    // #swagger.summary = 'Adiciona um novo adicional'
+    // #swagger.tags = ['Categoria']
+    // #swagger.summary = 'Adiciona uma nova categoria'
     /*
         #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
                     schema: {
-                        $ref: "#/components/schemas/adicionais"
+                        $ref: "#/components/schemas/categoria"
                     }
                 }
             }
@@ -30,15 +30,15 @@ router.post('/gravar', (req,res) =>{
 });
 
 router.put('/alterar', (req,res) =>{
-    // #swagger.tags = ['Adicionais']
-    // #swagger.summary = 'Altera um adicional cadastrado'
+    // #swagger.tags = ['Categoria']
+    // #swagger.summary = 'Altera uma categoria cadastrada'
     /*
         #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
                     schema: {
-                        $ref: "#/components/schemas/adicionais"
+                        $ref: "#/components/schemas/categoria"
                     }
                 }
             }
@@ -47,9 +47,9 @@ router.put('/alterar', (req,res) =>{
     ctrl.alterar(req,res);
 });
 
-router.delete('/excluir/:idAdc', (req,res) =>{
-    // #swagger.tags = ['Adicionais']
-    // #swagger.summary = 'Exclui um adicional cadastrado com base no ID'
+router.delete('/excluir/:idCat', (req,res) =>{
+    // #swagger.tags = ['Categoria']
+    // #swagger.summary = 'Exclui uma categoria cadastrado com base no ID'
 
     ctrl.excluir(req,res);
 });

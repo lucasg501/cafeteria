@@ -21,9 +21,17 @@ class categoriaModel{
     }
 
     async gravar(){
-        let sql = "insert into categoria (nome_cat) values (?)";
-        let valores = [this.#nomeCat];
-        return await banco.ExecutaComandoNonQuery(sql, valores);
+        if(this.#idCat == 0){
+            let sql = "insert into categoria (nome_cat) values (?)";
+            let valores = [this.#nomeCat];
+            let ok = await banco.ExecutaComandoNonQuery(sql, valores);
+            return ok;
+        }else{
+            let sql = "update categoria set nome_cat = ? where id_cat = ?";
+            let valores = [this.#nomeCat, this.#idCat];
+            let ok = await banco.ExecutaComandoNonQuery(sql, valores);
+            return ok;
+        }
     }
 
     async excluir(idCat){

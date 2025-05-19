@@ -50,20 +50,6 @@ class comandaController{
         }
     }
 
-    async excluir(req,res){
-        if(req.params.idComanda != null){
-            let comandaModel = new ComandaModel();
-            let ok = await comandaModel.excluir(req.params.idComanda);
-            if(ok){
-                res.status(200).json("Comanda excluida com sucesso!");
-            }else{
-                res.status(500).json("Erro ao excluir comanda!");
-            }
-        }else{
-            res.status(400).json("Par‚metros inválidos");
-        }
-    }
-
     async obter(req,res){
         if(req.params.idComanda != null){
             let comandaModel = new ComandaModel();

@@ -46,12 +46,12 @@ class produtosModel {
 
     async gravar() {
         if (this.#idProd == 0) {
-            let sql = "insert into produtos (nome_produto, id_cat, valor, foto, ativo, descricao, id_adc) values (?, ?, ?, ?, ?, ?, ?)";
+            let sql = "insert into produto (nome_produto, id_cat, valor, foto, ativo, descricao, id_adc) values (?, ?, ?, ?, ?, ?, ?)";
             let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idAdc];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         } else {
-            let sql = "update produtos set nome_produto = ?, id_cat = ?, valor = ?, foto = ?, ativo = ?, descricao = ?, id_adc = ? where id_prod = ?";
+            let sql = "update produto set nome_produto = ?, id_cat = ?, valor = ?, foto = ?, ativo = ?, descricao = ?, id_adc = ? where id_produto = ?";
             let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idAdc, this.#idProd];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
@@ -59,24 +59,24 @@ class produtosModel {
     }
 
     async listar(){
-        let sql = "select * from produtos";
+        let sql = "select * from produto";
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new produtosModel(rows[i]['id_prod'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_adc']));
+            lista.push(new produtosModel(rows[i]['id_produto'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_adc']));
         }
         return lista;
     }
 
     async excluir(idProd){
-        let sql = "delete from produtos where id_prod = ?";
+        let sql = "delete from produto where id_produto = ?";
         let valores = [idProd];
         let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
         return ok;
     }
 
     async obter(idProd){
-        let sql = "select * from produtos where id_prod = ?";
+        let sql = "select * from produto where id_produto = ?";
         let valores = [idProd];
         let rows = await Banco.ExecutaComando(sql, valores);
         let lista = [];

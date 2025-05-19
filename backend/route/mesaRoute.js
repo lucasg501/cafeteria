@@ -1,14 +1,14 @@
 const express = require('express');
-const adicionaisController = require('../controller/adicionaisController');
+const mesaController = require('../controller/mesaController')
 const router = express.Router();
 
-const ctrl = new adicionaisController();
+const ctrl = new mesaController();
 
 router.get('/obter/:idMesa', (req,res) =>{
     // #swagger.tags = ['Mesas']
     // #swagger.summary = 'Lista uma mesa em específico'
 
-    ctrl.listar(req,res);
+    ctrl.obter(req,res);
 });
 
 router.post('/gravar', (req,res) =>{

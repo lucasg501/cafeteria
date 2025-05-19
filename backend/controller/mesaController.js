@@ -20,7 +20,6 @@ class mesaController{
         if(Object.keys(req.body).length > 0){
             let mesaModel = new MesaModel();
             mesaModel.idMesa = 0;
-            mesaModel.idRest = req.body.idRest;
             mesaModel.numMesa = req.body.numMesa;
             let ok = await mesaModel.gravar();
             if(ok){

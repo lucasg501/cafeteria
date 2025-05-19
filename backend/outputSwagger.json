@@ -100,9 +100,9 @@
     "/categoria/listar": {
       "get": {
         "tags": [
-          "Adicionais"
+          "Categoria"
         ],
-        "summary": "Lista os adicionais cadastrados",
+        "summary": "Lista as categorias cadastradas",
         "description": "",
         "responses": {
           "default": {
@@ -114,9 +114,9 @@
     "/categoria/gravar": {
       "post": {
         "tags": [
-          "Adicionais"
+          "Categoria"
         ],
-        "summary": "Adiciona um novo adicional",
+        "summary": "Adiciona uma nova categoria",
         "description": "",
         "responses": {
           "default": {
@@ -128,7 +128,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/adicionais"
+                "$ref": "#/components/schemas/categoria"
               }
             }
           }
@@ -138,9 +138,9 @@
     "/categoria/alterar": {
       "put": {
         "tags": [
-          "Adicionais"
+          "Categoria"
         ],
-        "summary": "Altera um adicional cadastrado",
+        "summary": "Altera uma categoria cadastrada",
         "description": "",
         "responses": {
           "default": {
@@ -152,23 +152,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/adicionais"
+                "$ref": "#/components/schemas/categoria"
               }
             }
           }
         }
       }
     },
-    "/categoria/excluir/{idAdc}": {
+    "/categoria/excluir/{idCat}": {
       "delete": {
         "tags": [
-          "Adicionais"
+          "Categoria"
         ],
-        "summary": "Exclui um adicional cadastrado com base no ID",
+        "summary": "Exclui uma categoria cadastrado com base no ID",
         "description": "",
         "parameters": [
           {
-            "name": "idAdc",
+            "name": "idCat",
             "in": "path",
             "required": true,
             "schema": {
@@ -313,30 +313,6 @@
                 "$ref": "#/components/schemas/comanda"
               }
             }
-          }
-        }
-      }
-    },
-    "/comanda/excluir/{idComanda}": {
-      "delete": {
-        "tags": [
-          "Comandas"
-        ],
-        "summary": "Exclui uma comanda cadastrada",
-        "description": "",
-        "parameters": [
-          {
-            "name": "idComanda",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
           }
         }
       }
@@ -570,33 +546,296 @@
           }
         }
       }
+    },
+    "/itensComanda/listar": {
+      "get": {
+        "tags": [
+          "ItensComanda"
+        ],
+        "summary": "Lista os itens cadastrados",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/itensComanda/obter/{idComanda}": {
+      "get": {
+        "tags": [
+          "ItensComanda"
+        ],
+        "summary": "Lista um item cadastrado com base no ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idComanda",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/itensComanda/gravar": {
+      "post": {
+        "tags": [
+          "ItensComanda"
+        ],
+        "summary": "Adiciona um novo item",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/itensComanda"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/itensComandaAdc/listar": {
+      "get": {
+        "tags": [
+          "ItensComandaAdc"
+        ],
+        "summary": "Lista os itens cadastrados",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/itensComandaAdc/obter/{idItem}": {
+      "get": {
+        "tags": [
+          "ItensComandaAdc"
+        ],
+        "summary": "Lista um item cadastrado com base no ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idItem",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/itensComandaAdc/gravar": {
+      "post": {
+        "tags": [
+          "ItensComandaAdc"
+        ],
+        "summary": "Adiciona um novo item",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/itensComandaAdc"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "adicionais": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idAdc": {
+            "type": "number",
+            "example": 0
+          },
+          "nomeAdc": {
+            "type": "string",
+            "example": "Queijo"
+          },
+          "valorAdc": {
+            "type": "string",
+            "example": "3.50"
+          }
+        }
       },
       "categoria": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idCat": {
+            "type": "number",
+            "example": 0
+          },
+          "nomeCat": {
+            "type": "string",
+            "example": "Bebidas"
+          }
+        }
       },
       "comanda": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idComanda": {
+            "type": "number",
+            "example": 0
+          },
+          "idMesa": {
+            "type": "number",
+            "example": 1
+          },
+          "nomeCliente": {
+            "type": "string",
+            "example": "Lucas"
+          },
+          "valorTotal": {
+            "type": "string",
+            "example": "20.00"
+          },
+          "paga": {
+            "type": "string",
+            "example": "N"
+          }
+        }
       },
       "mesa": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idMesa": {
+            "type": "number",
+            "example": 0
+          },
+          "numMesa": {
+            "type": "number",
+            "example": 1
+          }
+        }
       },
       "login": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idUsu": {
+            "type": "number",
+            "example": 0
+          },
+          "login": {
+            "type": "string",
+            "example": "lucasg1"
+          },
+          "senha": {
+            "type": "string",
+            "example": "1234"
+          },
+          "adm": {
+            "type": "undefined"
+          }
+        }
       },
       "produto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "idProd": {
+            "type": "number",
+            "example": 0
+          },
+          "nomeProd": {
+            "type": "string",
+            "example": "Coca-Cola"
+          },
+          "idCat": {
+            "type": "string",
+            "example": "2"
+          },
+          "valorProd": {
+            "type": "string",
+            "example": "9.00"
+          },
+          "foto": {
+            "type": "string",
+            "example": "c://imagem.jpg"
+          },
+          "ativo": {
+            "type": "string",
+            "example": "S"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Uma coca cola gelada de 2LT"
+          },
+          "idAdc": {
+            "type": "number",
+            "example": 0
+          }
+        }
+      },
+      "itensComanda": {
+        "type": "object",
+        "properties": {
+          "idItem": {
+            "type": "number",
+            "example": 0
+          },
+          "idComanda": {
+            "type": "number",
+            "example": 1
+          },
+          "idProduto": {
+            "type": "number",
+            "example": 1
+          },
+          "quantidadeComanda": {
+            "type": "number",
+            "example": 1
+          },
+          "valorUn": {
+            "type": "string",
+            "example": "9.00"
+          }
+        }
+      },
+      "itensComandaAdc": {
+        "type": "object",
+        "properties": {
+          "idItem": {
+            "type": "number",
+            "example": 1
+          },
+          "idAdc": {
+            "type": "number",
+            "example": 1
+          }
+        }
       }
     },
     "securitySchemes": {

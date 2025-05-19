@@ -5,6 +5,8 @@ const comandaModel = require("./model/comandaModel");
 const mesaModel = require("./model/mesaModel");
 const produtoModel = require("./model/produtosModel");
 const loginModel = require("./model/loginModel");
+const itensComandaModel = require("./model/itensComandaModel");
+const itensComandaAdcModel = require("./model/itensComandaAdcModel");
 
 const doc = {
     info:{
@@ -21,12 +23,14 @@ const doc = {
     },
     components:{
         schemas:{
-         adicionais: new adicionaisModel(0, 'Queijo', '3,50'),
-         categoria: new categoriaModel(0, 'Bebidas'),
-         comanda: new comandaModel(0, 1, 'Lucas','20,00','N'),
-         mesa: new mesaModel(0, 1),
-         login: new loginModel(0, 'lucasg1', '1234'),
-         produto: new produtoModel(0, 'Coca-Cola', '2', '9,00', 'c://imagem.jpg', 'S', 'Uma coca cola gelada de 2LT', 0)
+         adicionais: new adicionaisModel(0, 'Queijo', '3.50').toJSON(),
+         categoria: new categoriaModel(0, 'Bebidas').toJSON(),
+         comanda: new comandaModel(0, 1, 'Lucas','20.00','N').toJSON(),
+         mesa: new mesaModel(0, 1).toJSON(),
+         login: new loginModel(0, 'lucasg1', '1234').toJSON(),
+         produto: new produtoModel(0, 'Coca-Cola', '2', '9.00', 'c://imagem.jpg', 'S', 'Uma coca cola gelada de 2LT', 0).toJSON(),
+         itensComanda: new itensComandaModel(0, 1, 1, 1, '9.00').toJSON(),
+         itensComandaAdc: new itensComandaAdcModel(1, 1).toJSON()
         }
     }
 }

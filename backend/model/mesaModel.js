@@ -21,7 +21,7 @@ class mesaModel{
     }
 
     async gravar(){
-        let sql = "insert into mesa (numero) values = ?";
+        let sql = "insert into mesa (numero_mesa) values (?)";
         let valores = [this.#numMesa];
         let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
         return ok;
@@ -32,7 +32,7 @@ class mesaModel{
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new mesaModel(rows[i]['id_mesa'], rows[i]['numero']));
+            lista.push(new mesaModel(rows[i]['id_mesa'], rows[i]['numero_mesa']));
         }
         return lista;
     }
@@ -47,6 +47,17 @@ class mesaModel{
             console.log(e);
             return false;
         }
+    }
+
+    async obter(idMesa){
+        let sql = "select * from mesa where id_mesa = ?";
+        let valores = [idMesa];
+        let rows = await Banco.ExecutaComando(sql, valores);
+        let lista = [];
+        for(let i = 0; i < rows.length; i++){
+            lista.push(new mesaModel(rows[i]['id_mesa'], rows[i]['numero_mesa']));
+        }
+        return lista;
     }
 }
 

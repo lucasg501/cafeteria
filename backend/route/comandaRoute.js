@@ -47,11 +47,4 @@ router.put('/alterar', (req,res) =>{
     ctrl.alterar(req,res);
 });
 
-router.delete('/excluir/:idComanda', (req,res) =>{
-    // #swagger.tags = ['Comandas']
-    // #swagger.summary = 'Exclui uma comanda cadastrada'
-
-    ctrl.excluir(req,res);
-});
-
 module.exports = router;

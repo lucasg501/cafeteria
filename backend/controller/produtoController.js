@@ -20,6 +20,10 @@ class produtoController{
             produtoModel.nomeProd = req.body.nomeProd;
             produtoModel.idCat = req.body.idCat;
             produtoModel.valorProd = req.body.valorProd;
+            produtoModel.foto = req.body.foto;
+            produtoModel.ativo = req.body.ativo;
+            produtoModel.descricao = req.body.descricao;
+            produtoModel.idAdc = req.body.idAdc;
 
 
             let ok = await produtoModel.gravar();
@@ -40,6 +44,10 @@ class produtoController{
             produtoModel.nomeProd = req.body.nomeProd;
             produtoModel.idCat = req.body.idCat;
             produtoModel.valorProd = req.body.valorProd;
+            produtoModel.foto = req.body.foto;
+            produtoModel.ativo = req.body.ativo;
+            produtoModel.descricao = req.body.descricao;
+            produtoModel.idAdc = req.body.idAdc;
             let ok = await produtoModel.gravar();
             if(ok){
                 res.status(200).json("Produto alterado com sucesso!");

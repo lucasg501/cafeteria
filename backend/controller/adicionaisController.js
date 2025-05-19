@@ -12,6 +12,20 @@ class adicionaisController {
         res.status(200).json(listaRetorno);
     }
 
+    async obter(req,res){
+        if(req.params.idAdc != null){
+            let adicionaisModel = new AdicionaisModel();
+            let lista = await adicionaisModel.obter(req.params.idAdc);
+            let listaRetorno = [];
+            for (let i = 0; i < lista.length; i++) {
+                listaRetorno.push(lista[i].toJSON());
+            }
+            res.status(200).json(listaRetorno);
+        }else{
+            res.status(400).json("Parâmetros inválidos");
+        }
+    }
+
     async gravar(req, res) {
         if (Object.keys(req.body).length > 0) {
             let adicionaisModel = new AdicionaisModel();

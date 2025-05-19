@@ -56,12 +56,12 @@ class comandaModel {
     async gravar() {
         if (this.#idComanda == 0) {
             let sql = "insert into comanda (id_mesa, nome_cliente, valor_total, paga) values (?, ?, ?, ?)";
-            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal];
+            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal, this.#paga];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         } else {
             let sql = "update comanda set id_mesa = ?, nome_cliente = ?, valor_total = ?, paga = 'S' where id_comanda = ?";
-            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal, this.#paga, this.#idComanda];
+            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal, this.#idComanda];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         }

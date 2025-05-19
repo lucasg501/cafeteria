@@ -1,6 +1,10 @@
 const swaggerAutogen = require("swagger-autogen")({openapi: "3.0.0"});
-
-
+const adicionaisModel = require("./model/adicionaisModel");
+const categoriaModel = require("./model/categoriaModel");
+const comandaModel = require("./model/comandaModel");
+const mesaModel = require("./model/mesaModel");
+const produtoModel = require("./model/produtosModel");
+const loginModel = require("./model/loginModel");
 
 const doc = {
     info:{
@@ -17,7 +21,12 @@ const doc = {
     },
     components:{
         schemas:{
-         
+         adicionais: new adicionaisModel(0, 'Queijo', '3,50'),
+         categoria: new categoriaModel(0, 'Bebidas'),
+         comanda: new comandaModel(0, 1, 'Lucas','20,00','N'),
+         mesa: new mesaModel(0, 1),
+         login: new loginModel(0, 'lucasg1', '1234'),
+         produto: new produtoModel(0, 'Coca-Cola', '2', '9,00', 'c://imagem.jpg', 'S', 'Uma coca cola gelada de 2LT', 0)
         }
     }
 }

@@ -87,3 +87,5 @@ class produtosModel {
     }
 
 }
+
+module.exports = produtosModel;

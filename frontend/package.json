@@ -11,12 +11,16 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "context": "^3.0.33",
     "cookie": "^1.0.2",
     "cookie-parse": "^0.4.0",
+    "local": "^0.3.3",
     "next": "15.3.2",
     "parse": "^6.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-modal": "^3.16.3"
+    "react-modal": "^3.16.3",
+    "storage": "^0.2.0",
+    "user": "^0.0.0"
   }
 }

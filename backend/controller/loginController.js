@@ -1,3 +1,4 @@
+const { log } = require('console');
 const LoginModel = require('../model/loginModel');
 
 class loginController{
@@ -74,6 +75,29 @@ class loginController{
             res.status(400).json("Par‚metros inv·lidos");
         }
     }
+
+    async autenticar(req,res){
+        if(req.body.login != undefined && req.body.senha != undefined){
+            let usuario = new LoginModel();
+            login = await usuario.autenticar(req.body.login, req.body.senha);
+
+            if(login != null){
+                res.cookie('cookieAuth', 'token123');
+                res.status(200).json({msg: 'Usuário autenticado', login: login.toJSON()});
+            }else{
+                res.status(401).json({msg: 'Usuário ou senha inválidos'});
+            }
+        }else{
+            res.status(400).json("Parâmetros inválidos");
+        }
+    }
+
+    async logout(req, res) {
+        res.clearCookie("cookieAuth");
+
+        res.status(200).json({msg: "Usuário deslogado!"});
+    } 
+
 }
 
 module.exports = loginController;

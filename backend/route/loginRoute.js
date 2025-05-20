@@ -71,4 +71,12 @@ router.delete('/excluir/:idUsu', (req,res) =>{
     ctrl.excluir(req,res);
 });
 
+router.get('/logout', (req, res) => {
+    //#swagger.tags = ['Login']
+
+    ctrl.logout(req, res);
+})
+
+router.post('/autenticar', ctrl.autenticar);
+
 module.exports = router;

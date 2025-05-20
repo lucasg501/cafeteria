@@ -69,6 +69,16 @@ class loginModel{
         }
         return lista;
     }
+
+    async autenticar(login, senha){
+        let sql = "select * from login where login = ? and senha = ?";
+        let valores = [login, senha];
+        let rows = await Banco.ExecutaComando(sql, valores);
+        if(rows.length > 0){
+            return new loginModel(rows[0]['id_usu'], rows[0]['login'], rows[0]['senha'], rows[0]['adm']);
+        }
+        return null;
+    }
 }
 
 module.exports = loginModel;

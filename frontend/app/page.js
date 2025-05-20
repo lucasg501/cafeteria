@@ -1,7 +1,11 @@
 'use client'
-import Link from "next/link";
+import React, {useContext, userContext, useState} from 'react';
+import UserContext from './context/userContext';
 
 export default function AdminLayout({ children }) {
+    const {user, setUser} = useContext(UserContext);
+    const [isClient, setIsClient] = useState(false);
+
     return (
         <div>
             <h1>Início</h1>

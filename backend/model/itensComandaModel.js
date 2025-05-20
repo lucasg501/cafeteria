@@ -37,13 +37,13 @@ class itensComandaModel{
         let rows = await banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new itensComandaModel(rows[i]['id_item'], rows[i]['id_comanda'], rows[i]['id_produto'], rows[i]['quantidade_comanda'], rows[i]['valor_un']));
+            lista.push(new itensComandaModel(rows[i]['id_item'], rows[i]['id_comanda'], rows[i]['id_produto'], rows[i]['quantidade'], rows[i]['valor_unitario']));
         }
         return lista;
     }
 
     async gravar(){
-        if(this.#idItem == null){
+        if(this.#idItem == 0){
             let sql = "insert into itens_comanda(id_comanda, id_produto, quantidade, valor_unitario) values(?, ?, ?, ?)";
             let valores = [this.#idComanda, this.#idProduto, this.#quantidadeComanda, this.#valorUn];
             let ok = await banco.ExecutaComandoNonQuery(sql, valores);

@@ -20,14 +20,14 @@ class ItensComandaAdcModel {
    }
 
    async gravar(){
-      let sql = "insert into itens_comanda_adc(id_item, id_adc) values(?, ?)";
+      let sql = "insert into itens_comanda_adicionais(id_item, id_adc) values(?, ?)";
       let valores = [this.#idItem, this.#idAdc];
       let ok = await banco.ExecutaComandoNonQuery(sql, valores);
       return ok;
    }
 
    async listar(){
-    let sql = "select * from itens_comanda_adc";
+    let sql = "select * from itens_comanda_adicionais";
     let rows = await banco.ExecutaComando(sql);
     let lista = [];
     for(let i = 0; i < rows.length; i++){
@@ -37,7 +37,7 @@ class ItensComandaAdcModel {
    }
 
    async obter(idItem){
-    let sql = "select * from itens_comanda_adc where id_item = ?";
+    let sql = "select * from itens_comanda_adicionais where id_item = ?";
     let valores = [idItem];
     let rows = await banco.ExecutaComando(sql, valores);
     let lista = [];

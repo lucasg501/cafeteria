@@ -14,10 +14,9 @@ class itensComandaAdcController{
     async gravar(req,res){
         if(Object.keys(req.body).length > 0){
             let itensComandaAdcModel = new ItensComandaAdcModel();
-            itensComandaAdcModel.idItem = 0;
-            itensComandaAdcModel.idComanda = req.body.idComanda;
+
+            itensComandaAdcModel.idItem = req.body.idItem;
             itensComandaAdcModel.idAdc = req.body.idAdc;
-            itensComandaAdcModel.qtd = req.body.qtd;
             let ok = await itensComandaAdcModel.gravar();
             if(ok){
                 res.status(200).json("Item incluido com sucesso!");

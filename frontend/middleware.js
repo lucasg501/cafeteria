@@ -1,12 +1,22 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-export default function Middleware(request) {
+export function middleware(request) {
+  const cookieAuth = request.cookies.get('cookieAuth');
 
-    if(request.cookies.get("cookieAuth") == undefined){
-        return NextResponse.redirect(new URL('/login', request.url))
-    }
+  // Verifica se o cookie existe e tem o valor esperado (ex: token123)
+  if (!cookieAuth || cookieAuth.value !== 'token123') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+
+    const response = NextResponse.redirect(url);
+    response.headers.set('Cache-Control', 'no-store');
+    return response;
+  }
+
+  // Se o cookie é válido, continua normalmente
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/admin/:path*']
-}
+  matcher: ['/admin/:path*'], // Protege rotas que começam com /admin/
+};

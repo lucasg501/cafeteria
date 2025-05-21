@@ -1,18 +1,36 @@
 'use client'
-import React, {useContext, userContext, useState} from 'react';
+import React, { useContext, useEffect } from 'react';
 import UserContext from './context/userContext';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLayout({ children }) {
-    const {user, setUser} = useContext(UserContext);
-    const [isClient, setIsClient] = useState(false);
+  const { user } = useContext(UserContext);
+  const router = useRouter();
 
-    return (
-        <div>
-            <h1>Início</h1>
+  useEffect(() => {
+    // Se user for null, redireciona para login
+    if (user === null) {
+      alert('Usuário não está logado, redirecionando para login.');
+      router.push('/login');
+    }
+  }, [user, router]);
 
-            <h4>Aqui ficara a lista das ultimas comandas que não foram marcadas como pagas</h4>
+  if (user === undefined) {
+    // Estado inicial, carregando o usuário
+    return <div>Carregando usuário...</div>;
+  }
 
-            {children}
-        </div>
-    );
+  if (user === null) {
+    // Usuário não autenticado, bloqueia renderização da página protegida
+    return null;
+  }
+
+  // Usuário autenticado, renderiza o conteúdo protegido
+  return (
+    <div>
+      <h1>Início</h1>
+      <h4>Aqui ficará a lista das últimas comandas que não foram marcadas como pagas</h4>
+      {children}
+    </div>
+  );
 }

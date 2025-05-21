@@ -1,8 +1,8 @@
 const express = require('express');
-const comandaController = require('../controller/comandaController');
+const loginController = require('../controller/loginController');
 const router = express.Router();
 
-const ctrl = new comandaController();
+const ctrl = new loginController();
 
 router.get('/listar', (req,res) =>{
     // #swagger.tags = ['Logins']

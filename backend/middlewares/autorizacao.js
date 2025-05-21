@@ -1,4 +1,3 @@
-
 class Autorizacao {
 
     validarToken(req, res, next){

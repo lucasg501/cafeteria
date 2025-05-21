@@ -1,71 +1,34 @@
 'use client'
-import cookie from 'cookie'
+
+import { parse } from 'cookie';
+
 const baseUrl = "http://localhost:4000";
 
 let chaveApi = "";
-if(typeof document != 'undefined') {
-    let cookies = cookie.parse(document.cookie)
-    if(cookies.cookieAuth != undefined) {
+if (typeof document !== 'undefined') {
+    let cookies = parse(document.cookie);
+    if (cookies.cookieAuth !== undefined) {
         chaveApi = cookies.cookieAuth;
     }
 }
 
+// Seu código de criação do cliente HTTP (fetch wrapper ou axios etc)
+// Por exemplo, com fetch:
 
-const httpClient = {
+async function httpClient(url, options = {}) {
+    options.headers = {
+        ...options.headers,
+        'chaveapi': chaveApi,
+        'Content-Type': 'application/json'
+    };
 
-    get: (endpoint) => {
-        let config = {
-            credentials: 'include',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'chaveapi': chaveApi
-            }
-        }
-
-        endpoint = baseUrl + endpoint;
-        return fetch(endpoint, config);
-    },
-    post: (endpoint, body) => {
-        let config = {
-            credentials: 'include',
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'chaveapi': chaveApi
-            },
-            body: JSON.stringify(body)
-        }
-
-        endpoint = baseUrl + endpoint;
-        return fetch(endpoint, config);
-    },
-    delete: (endpoint) => {
-        let config = {
-            credentials: 'include',
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-                'chaveapi': chaveApi
-            }
-        }
-
-        endpoint = baseUrl + endpoint;
-        return fetch(endpoint, config);
-    },
-    put: (endpoint, body) => {
-        let config = {
-            credentials: 'include',
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json',
-                'chaveapi': chaveApi
-            },
-            body: JSON.stringify(body)
-        }
-        endpoint = baseUrl + endpoint;
-        return fetch(endpoint, config)
-    }
+    const res = await fetch(baseUrl + url, options);
+    return res;
 }
 
-export default httpClient;
+export default {
+    get: (url) => httpClient(url, { method: 'GET' }),
+    post: (url, body) => httpClient(url, { method: 'POST', body: JSON.stringify(body) }),
+    put: (url, body) => httpClient(url, { method: 'PUT', body: JSON.stringify(body) }),
+    delete: (url) => httpClient(url, { method: 'DELETE' })
+};

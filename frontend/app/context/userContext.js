@@ -1,24 +1,38 @@
 'use client'
-const { createContext, useState } = require("react");
-
+import React, { createContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
 
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-export const UserProvider = ({children}) => {
-
-    let usuarioLogado = null;
-    
-    if(typeof localStorage != "undefined") {
-        usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const usuarioLogado = localStorage.getItem('usuarioLogado');
+      console.log('UserProvider: usuarioLogado raw:', usuarioLogado);
+      if (usuarioLogado) {
+        try {
+          const userParsed = JSON.parse(usuarioLogado);
+          console.log('UserProvider: usuário carregado:', userParsed);
+          setUser(userParsed);
+        } catch (e) {
+          console.error('Erro ao parsear usuário do localStorage:', e);
+          localStorage.removeItem('usuarioLogado');
+          setUser(null);
+        }
+      } else {
+        console.log('UserProvider: usuário não encontrado no localStorage');
+      }
     }
-    const [user, setUser] = useState(usuarioLogado);
+  }, []);
 
-    return (
-        <UserContext.Provider value={{user, setUser}}>
-            {children}
-        </UserContext.Provider>
-    )
-}
+  console.log('UserProvider: user atual:', user);
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
 export default UserContext;

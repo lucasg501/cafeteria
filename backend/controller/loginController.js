@@ -78,8 +78,8 @@ class loginController{
 
     async autenticar(req,res){
         if(req.body.login != undefined && req.body.senha != undefined){
-            let usuario = new LoginModel();
-            login = await usuario.autenticar(req.body.login, req.body.senha);
+            let login = new LoginModel();
+            login = await login.autenticar(req.body.login, req.body.senha);
 
             if(login != null){
                 res.cookie('cookieAuth', 'token123');

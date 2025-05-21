@@ -437,6 +437,29 @@
         }
       }
     },
+    "/login/logout": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/login/autenticar": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/produto/listar": {
       "get": {
         "tags": [

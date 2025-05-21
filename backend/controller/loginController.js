@@ -83,7 +83,7 @@ class loginController{
 
             if(login != null){
                 res.cookie('cookieAuth', 'token123');
-                res.status(200).json({msg: 'Usuário autenticado', login: login.toJSON()});
+                res.status(200).json({msg: 'Usuário autenticado', usuario: login.toJSON()});
             }else{
                 res.status(401).json({msg: 'Usuário ou senha inválidos'});
             }

@@ -38,7 +38,7 @@ router.get('/obter/:idUsu', (req,res) =>{
             content: {
                 "application/json": {
                     schema: {
-                        $ref: "#/components/schemas/comanda"
+                        $ref: "#/components/schemas/login"
                     }
                 }
             }
@@ -49,14 +49,14 @@ router.get('/obter/:idUsu', (req,res) =>{
 
 router.put('/alterar', (req,res) =>{
     // #swagger.tags = ['Logins']
-    // #swagger.summary = 'Altera uma comanda'
+    // #swagger.summary = 'Altera um usuario'
     /*
         #swagger.requestBody = {
             required: true,
             content: {
                 "application/json": {
                     schema: {
-                        $ref: "#/components/schemas/comanda"
+                        $ref: "#/components/schemas/login"
                     }
                 }
             }
@@ -77,6 +77,23 @@ router.get('/logout', (req, res) => {
     ctrl.logout(req, res);
 })
 
-router.post('/autenticar', ctrl.autenticar);
+router.post('/autenticar', (req,res) =>{
+     // #swagger.tags = ['Logins']
+    // #swagger.summary = 'Adiciona um novo login'
+    /*
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        $ref: "#/components/schemas/comanda"
+                    }
+                }
+            }
+        }
+    */
+
+    ctrl.autenticar(req,res);
+});
 
 module.exports = router;

@@ -4,7 +4,8 @@ import httpClient from "../utils/httpClient";
 
 export default function CategoriaForm(props) {
 
-    const nomeCat = useRef(props.categoria ? props.categoria[0].nomeCat : '');
+    const nomeCat = useRef(props.categoria ? props.categoria.nomeCat : 'Não ta vindo do props');
+
 
     const [categoria, setCategoria] = useState(
         props.categoria ? props.categoria : { idCat: 0, nomeCat: '' }
@@ -41,7 +42,7 @@ export default function CategoriaForm(props) {
         let status = 0;
         if (categoria.idCat !== 0 && categoria.nomeCat !== '') {
             httpClient.put('/categoria/alterar', {
-                idCat: categoria[0].idCat,
+                idCat: categoria.idCat,
                 nomeCat: nomeCat.current.value
             })
                 .then(r => {

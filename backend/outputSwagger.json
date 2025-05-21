@@ -97,6 +97,30 @@
         }
       }
     },
+    "/adicionais/excluir/{idAdc}": {
+      "delete": {
+        "tags": [
+          "Adicionais"
+        ],
+        "summary": "Exclue um adicional cadastrado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idAdc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/categoria/listar": {
       "get": {
         "tags": [
@@ -165,6 +189,30 @@
           "Categoria"
         ],
         "summary": "Exclui uma categoria cadastrado com base no ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCat",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/categoria/obter/{idCat}": {
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Lista uma categoria cadastrada com base no ID",
         "description": "",
         "parameters": [
           {

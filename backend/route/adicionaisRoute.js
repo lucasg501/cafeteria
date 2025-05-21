@@ -56,5 +56,11 @@ router.put('/alterar', (req,res) =>{
     ctrl.alterar(req,res);
 });
 
+router.delete('/excluir/:idAdc', (req,res) =>{
+    // #swagger.tags = ['Adicionais']
+    // #swagger.summary = 'Exclue um adicional cadastrado'
+    ctrl.excluir(req,res);
+}); 
+
 
 module.exports = router;

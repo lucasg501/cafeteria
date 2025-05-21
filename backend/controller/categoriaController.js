@@ -12,6 +12,20 @@ class categoriaController{
         res.status(200).json(listaRetorno);
     }
 
+    async obter(req,res){
+        if(req.params.idCat != null){
+            let categoriaModel = new CategoriaModel();
+            let lista = await categoriaModel.obter(req.params.idCat);
+            let listaRetorno = [];
+            for (let i = 0; i < lista.length; i++) {
+                listaRetorno.push(lista[i].toJSON());
+            }
+            res.status(200).json(listaRetorno);
+        }else{
+            res.status(400).json("Par‚metros inv·lidos");
+        }
+    }
+
     async gravar(req,res){
         if(Object.keys(req.body).length > 0){
             let categoriaModel = new CategoriaModel();

@@ -54,4 +54,11 @@ router.delete('/excluir/:idCat', (req,res) =>{
     ctrl.excluir(req,res);
 });
 
+router.get('/obter/:idCat', (req,res) =>{
+    // #swagger.tags = ['Categoria']
+    // #swagger.summary = 'Lista uma categoria cadastrada com base no ID'
+
+    ctrl.obter(req,res);
+});
+
 module.exports = router;

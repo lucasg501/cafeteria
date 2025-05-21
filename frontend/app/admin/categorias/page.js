@@ -24,6 +24,23 @@ export default function Categorias() {
         })
     }
 
+    function excluirCategoria(idCat){
+        let status = 0;
+        httpClient.delete(`/categoria/excluir/${idCat}`)
+        .then(r=>{
+            status = r.status;
+            return r.json();
+        })
+        .then(r=>{
+            if(status == 200){
+                alert('Categoria excluida com sucesso!');
+                window.location.href = '/admin/categorias';
+            }else{
+                alert('Erro ao excluir categoria!');
+            }
+        })
+    }
+
     useEffect(()=>{
         listarCategorias();
     },[])

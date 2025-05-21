@@ -2,7 +2,6 @@
 
 import { useContext, useRef } from "react";
 import httpClient from "../utils/httpClient";
-import UserContext from "../context/userContext";
 
 export default function Login() {
   const login = useRef('');
@@ -23,10 +22,12 @@ export default function Login() {
         if(status == 200){
           alert('Usuario autenticado');
           window.location.href = '/admin';
+        }else{
+          alert('Usuário ou senha inválidos');
         }
       })
     }else{
-      alert('Usuário ou senha inválidos');
+      alert('Verifique se os campos estão preenchidos!');
     }
   }
 

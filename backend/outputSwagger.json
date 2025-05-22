@@ -769,6 +769,116 @@
           }
         }
       }
+    },
+    "/categoriaAdicional/listar": {
+      "get": {
+        "tags": [
+          "CategoriaAdicional"
+        ],
+        "summary": "Lista as categorias de adicionais cadastradas",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/categoriaAdicional/obter/{idCatAdc}": {
+      "get": {
+        "tags": [
+          "CategoriaAdicional"
+        ],
+        "summary": "Lista uma categoria de adicional cadastrada com base no ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCatAdc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/categoriaAdicional/gravar": {
+      "post": {
+        "tags": [
+          "CategoriaAdicional"
+        ],
+        "summary": "Adiciona uma nova categoria de adicional",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoriaAdicional"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoriaAdicional/alterar": {
+      "put": {
+        "tags": [
+          "CategoriaAdicional"
+        ],
+        "summary": "Altera uma categoria de adicional",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/categoriaAdicional"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categoriaAdicional/excluir/{idCatAdc}": {
+      "delete": {
+        "tags": [
+          "CategoriaAdicional"
+        ],
+        "summary": "Exclui uma categoria de adicional",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idCatAdc",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {
@@ -933,6 +1043,19 @@
           "idAdc": {
             "type": "number",
             "example": 1
+          }
+        }
+      },
+      "categoriaAdicional": {
+        "type": "object",
+        "properties": {
+          "idCatAdc": {
+            "type": "number",
+            "example": 0
+          },
+          "nomeCatAdc": {
+            "type": "string",
+            "example": "Lanches Salgados"
           }
         }
       }

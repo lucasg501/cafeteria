@@ -66,4 +66,14 @@ CREATE TABLE itens_comanda_adicionais (
     PRIMARY KEY (id_item, id_adc)
 );
 
+create table categoriaAdicional(
+	id_Catadc int not null primary key auto_increment,
+    nomeAdcCat varchar(245)
+);
 
+ALTER TABLE adicionais
+ADD id_Catadc INT;
+
+ALTER TABLE adicionais
+ADD CONSTRAINT fk_adicionais_categoria
+FOREIGN KEY (id_Catadc) REFERENCES categoriaAdicional(id_Catadc);

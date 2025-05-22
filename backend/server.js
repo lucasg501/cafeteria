@@ -9,6 +9,7 @@ const LoginRoute = require('./route/loginRoute');
 const ProdutoRoute = require('./route/produtosRoute');
 const ItensComandaRoute = require('./route/itensComandaRoute');
 const ItensComandaAdcRoute = require('./route/itensComandaAdcRoute');
+const CategoriaAdicionalRoute = require('./route/categoriaAdicionalRoute');
 
 const cors = require('cors');
 
@@ -26,6 +27,7 @@ app.use('/login', LoginRoute);
 app.use('/produto', ProdutoRoute);
 app.use('/itensComanda', ItensComandaRoute);
 app.use('/itensComandaAdc', ItensComandaAdcRoute);
+app.use('/categoriaAdicional', CategoriaAdicionalRoute);
 
 
 app.listen(porta, () => {

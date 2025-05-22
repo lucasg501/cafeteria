@@ -58,6 +58,12 @@ function LayoutContent({ children }) {
                     </Link>
                 </li>
                 <li className="nav-item">
+                    <Link className="nav-link" href="/admin/adicionaisCategorias">
+                        <i className="fas fa-solid fa-list"></i>
+                        <span>Adicionais Categorias</span>
+                    </Link>
+                </li>
+                <li className="nav-item">
                     <Link className="nav-link" href="/admin/comandas">
                         <i className="fas fa-solid fa-cash-register"></i>
                         <span>Comandas</span>

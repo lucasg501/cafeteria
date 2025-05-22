@@ -7,6 +7,7 @@ const produtoModel = require("./model/produtosModel");
 const loginModel = require("./model/loginModel");
 const itensComandaModel = require("./model/itensComandaModel");
 const itensComandaAdcModel = require("./model/itensComandaAdcModel");
+const categoriaAdicionalModel = require("./model/categoriaAdicionalModel");
 
 const doc = {
     info:{
@@ -30,7 +31,8 @@ const doc = {
          login: new loginModel(0, 'lucasg1', '1234').toJSON(),
          produto: new produtoModel(0, 'Coca-Cola', '2', '9.00', 'c://imagem.jpg', 'S', 'Uma coca cola gelada de 2LT', 0).toJSON(),
          itensComanda: new itensComandaModel(0, 1, 1, 1, '9.00').toJSON(),
-         itensComandaAdc: new itensComandaAdcModel(1, 1).toJSON()
+         itensComandaAdc: new itensComandaAdcModel(1, 1).toJSON(),
+         categoriaAdicional: new categoriaAdicionalModel(0, 'Lanches Salgados').toJSON()
         }
     }
 }

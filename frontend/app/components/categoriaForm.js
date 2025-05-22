@@ -15,7 +15,7 @@ export default function CategoriaForm(props) {
         if (props.categoria) {
             setCategoria(props.categoria);
         }
-    }, [props.categoria])
+    }, [props.categoria]);
 
     function cadastrarCategoria() {
         let status = 0;
@@ -63,16 +63,16 @@ export default function CategoriaForm(props) {
     return (
         <div>
             <div>
-                <h1>{categoria.idCat !== 0 ? 'Alterar Categoria' : 'Cadastrar Categoria'}</h1>
+                <h1>{categoria[0].idCat !== 0 ? 'Alterar Categoria' : 'Cadastrar Categoria'}</h1>
             </div>
 
             <div>
                 <div className="form-group">
                     <label>Nome da Categoria</label>
-                    <input type="text" className="form-control" ref={nomeCat} defaultValue={nomeCat.current} />
+                    <input type="text" className="form-control" ref={nomeCat} defaultValue={categoria[0].nomeCat} />
 
                     <div style={{margin: 10}}>
-                        <button className="btn btn-primary" onClick={categoria.idCat !== 0 ? alterarCategoria : cadastrarCategoria}>{categoria.idCat !== 0 ? 'Alterar' : 'Cadastrar'}</button>
+                        <button className="btn btn-primary" onClick={categoria[0].idCat !== 0 ? alterarCategoria : cadastrarCategoria}>{categoria.idCat !== 0 ? 'Alterar' : 'Cadastrar'}</button>
 
                         <button style={{marginLeft: 10}} className="btn btn-danger" onClick={() => window.location.href = '/admin/categorias'}>Cancelar</button>
                     </div>

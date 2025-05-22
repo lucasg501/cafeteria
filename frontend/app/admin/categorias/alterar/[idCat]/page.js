@@ -8,18 +8,19 @@ export default function AlterarCategoria({params}) {
 
     const {idCat} = use(params);
 
-    const [categoria, setCategoria] = useState('');
+    const [categoria, setCategoria] = useState(null);
 
     function carregarCategoria(){
         let status = 0;
-        httpClient.get(`/categoria/listar/${idCat}`)
+        console.log("ID:", idCat);
+        httpClient.get(`/categoria/obter/${idCat}`)
         .then(r=>{
             status = r.status;
             return r.json();
         })
         .then(r=>{
             if(status == 200){
-                setCategoria(r[0]);
+                setCategoria(r);
             }
         })
     }

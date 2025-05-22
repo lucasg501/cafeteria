@@ -1,7 +1,6 @@
 'use client'
 
 import AdicionaisForm from "@/app/components/adicionaisForm"
-import Adicionais from "../../page"
 import httpClient from "@/app/utils/httpClient";
 import { useState, useEffect } from "react";
 import {use} from 'react';

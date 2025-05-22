@@ -11,6 +11,13 @@ router.get('/obter/:idMesa', (req,res) =>{
     ctrl.obter(req,res);
 });
 
+router.get('/listar', (req,res) =>{
+    // #swagger.tags = ['Mesas']
+    // #swagger.summary = 'Lista as mesas cadastradas'
+
+    ctrl.listar(req,res);
+});
+
 router.post('/gravar', (req,res) =>{
     // #swagger.tags = ['Mesas']
     // #swagger.summary = 'Adiciona uma nova mesa'

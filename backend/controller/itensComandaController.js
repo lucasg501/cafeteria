@@ -34,16 +34,16 @@ class ItensComandaController {
     async obter(req,res){
         if(req.params.idComanda != null){
             let itensComandaModel = new ItensComandaModel();
-            let lista = await itensComandaModel.obter(req.params.idComanda);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            itensComandaModel = await itensComandaModel.obter(req.params.idComanda);
+            if(itensComandaModel != null){
+                res.status(200).json(itensComandaModel.toJSON());
+            }else{
+                res.status(404).json("Item n„o encontrado!");
             }
-            res.status(200).json(listaRetorno);
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }
-    }
+    }            
 
 }
 

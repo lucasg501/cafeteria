@@ -32,11 +32,22 @@ class loginModel{
         let sql = "select * from login where login = ?";
         let valores = [login];
         let rows = await Banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for(let i = 0; i < rows.length; i++){
-            lista.push(new loginModel(rows[i]['id_usu'], rows[i]['login'], rows[i]['senha'], rows[i]['adm']));
+        if(rows.length > 0){
+            let login = new loginModel(rows[0]['id_usu'], rows[0]['login'], rows[0]['senha'], rows[0]['adm']);
+            return login;
         }
-        return lista;
+        return null;
+    }
+
+    async obterId(idUsu){
+        let sql = "select * from login where id_usu = ?";
+        let valores = [idUsu];
+        let rows = await Banco.ExecutaComando(sql, valores);
+        if(rows.length > 0){
+            let login = new loginModel(rows[0]['id_usu'], rows[0]['login'], rows[0]['senha'], rows[0]['adm']);
+            return login;
+        }
+        return null;
     }
 
     async gravar(){

@@ -79,11 +79,11 @@ class produtosModel {
         let sql = "select * from produto where id_produto = ?";
         let valores = [idProd];
         let rows = await Banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for(let i = 0; i < rows.length; i++){
-            lista.push(new produtosModel(rows[i]['id_prod'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_adc']));
+        if(rows.length > 0){
+            let produto = new produtosModel(rows[0]['id_produto'], rows[0]['nome_produto'], rows[0]['id_cat'], rows[0]['valor'], rows[0]['foto'], rows[0]['ativo'], rows[0]['descricao'], rows[0]['id_adc']);
+            return produto;
         }
-        return lista;
+        return null;
     }
 
 }

@@ -31,12 +31,13 @@ class itensComandaAdcController{
     async obter(req,res){
         if(req.params.idItem != null){
             let itensComandaAdcModel = new ItensComandaAdcModel();
-            let lista = await itensComandaAdcModel.obter(req.params.idItem);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            
+            itensComandaAdcModel = await itensComandaAdcModel.obter(req.params.idItem);
+            if(itensComandaAdcModel != null){
+                res.status(200).json(itensComandaAdcModel.toJSON());
+            }else{
+                res.status(404).json("Item n„o encontrado!");
             }
-            res.status(200).json(listaRetorno);
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }

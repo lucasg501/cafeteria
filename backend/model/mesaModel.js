@@ -31,7 +31,7 @@ class mesaModel{
         let sql = "select * from mesa";
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
-        for(let i = 0; i < rows.length; i++){
+        for(let i = 0; i<rows.length; i++){
             lista.push(new mesaModel(rows[i]['id_mesa'], rows[i]['numero_mesa']));
         }
         return lista;
@@ -53,11 +53,11 @@ class mesaModel{
         let sql = "select * from mesa where id_mesa = ?";
         let valores = [idMesa];
         let rows = await Banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for(let i = 0; i < rows.length; i++){
-            lista.push(new mesaModel(rows[i]['id_mesa'], rows[i]['numero_mesa']));
+        if(rows.length > 0){
+            let mesa = new mesaModel(rows[0]['id_mesa'], rows[0]['numero_mesa']);
+            return mesa;
         }
-        return lista;
+        return null;
     }
 }
 

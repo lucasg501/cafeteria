@@ -15,12 +15,12 @@ class categoriaController{
     async obter(req,res){
         if(req.params.idCat != null){
             let categoriaModel = new CategoriaModel();
-            let lista = await categoriaModel.obter(req.params.idCat);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            categoriaModel = await categoriaModel.obter(req.params.idCat);
+            if(categoriaModel != null){
+                res.status(200).json(categoriaModel.toJSON());
+            }else{
+                res.status(404).json("Categoria n„o encontrada!");
             }
-            res.status(200).json(listaRetorno);
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }

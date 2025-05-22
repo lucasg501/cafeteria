@@ -46,11 +46,11 @@ class comandaModel {
         let sql = "select * from comanda where id_comanda = ?";
         let valores = [idComanda];
         let rows = await Banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for (let i = 0; i < rows.length; i++) {
-            lista.push(new comandaModel(rows[i]['id_comanda'], rows[i]['id_mesa'], rows[i]['nome_cliente'], rows[i]['valor_total'], rows[i]['paga']));
+        if(rows.length > 0) {
+            let comanda = new comandaModel(rows[0]['id_comanda'], rows[0]['id_mesa'], rows[0]['nome_cliente'], rows[0]['valor_total'], rows[0]['paga']);
+            return comanda;
         }
-        return lista;
+        return null;
     }
 
     async gravar() {

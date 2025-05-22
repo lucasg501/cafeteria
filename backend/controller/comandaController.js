@@ -53,14 +53,14 @@ class comandaController{
     async obter(req,res){
         if(req.params.idComanda != null){
             let comandaModel = new ComandaModel();
-            let lista = await comandaModel.obter(req.params.idComanda);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            comandaModel = await comandaModel.obter(req.params.idComanda);
+            if(comandaModel != null){
+                res.status(200).json(comandaModel.toJSON());
+            }else{
+                res.status(404).json("Comanda n„o encontrada!");
             }
-            res.status(200).json(listaRetorno);
         }else{
-            res.status(400).json("Parâmetros inválidos");
+            res.status(400).json("Par‚metros inv·lidos");
         }
     }
 }

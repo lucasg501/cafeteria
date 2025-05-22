@@ -61,11 +61,12 @@ class categoriaModel{
         let sql = "select * from categoria where id_cat = ?";
         let valores = [idCat];
         let rows = await banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for(let i = 0; i < rows.length; i++){
-            lista.push(new categoriaModel(rows[i]['id_cat'], rows[i]['nome_cat']));
+
+        if(rows.length > 0){
+            let categoria = new categoriaModel(rows[0]['id_cat'], rows[0]['nome_cat']);
+            return categoria;
         }
-        return lista;
+        return null;
     }
 
 }

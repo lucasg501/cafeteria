@@ -64,11 +64,11 @@ class adicionaisModel{
         let sql = "select * from adicionais where id_adc = ?";
         let valores = [idAdc];
         let rows = await Banco.ExecutaComando(sql, valores);
-        let lista = [];
-        for(let i = 0; i < rows.length; i++){
-            lista.push(new adicionaisModel(rows[i]['id_adc'], rows[i]['nome_adc'], rows[i]['valor_adc']));
+        if(rows.length > 0){
+            let adicionais = new adicionaisModel(rows[0]['id_adc'], rows[0]['nome_adc'], rows[0]['valor_adc']);
+            return adicionais;
         }
-        return lista;
+        return null;
     }
 }
 

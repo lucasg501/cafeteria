@@ -62,12 +62,12 @@ class produtoController{
     async obter(req,res){
         if(req.params.idProd != null){
             let produtoModel = new ProdutoModel();
-            let lista = await produtoModel.obter(req.params.idProd);
-            let listaRetorno = [];
-            for(let i = 0; i < lista.length; i++){
-                listaRetorno.push(lista[i].toJSON());
+            produtoModel = await produtoModel.obter(req.params.idProd);
+            if(produtoModel != null){
+                res.status(200).json(produtoModel.toJSON());
+            }else{
+                res.status(404).json("Produto n„o encontrado!");
             }
-            res.status(200).json(listaRetorno);
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }

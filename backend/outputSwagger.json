@@ -255,6 +255,20 @@
         }
       }
     },
+    "/mesa/listar": {
+      "get": {
+        "tags": [
+          "Mesas"
+        ],
+        "summary": "Lista as mesas cadastradas",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/mesa/gravar": {
       "post": {
         "tags": [

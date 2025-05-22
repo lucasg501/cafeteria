@@ -14,14 +14,14 @@ class loginController{
     }
 
     async obter(req,res){
-        if(req.params.login != null){
+        if(req.params.idUsu != null){
             let loginModel = new LoginModel();
-            let lista = await loginModel.obter(req.params.login);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            loginModel = await loginModel.obterId(req.params.idUsu);
+            if(loginModel != null){
+                res.status(200).json(loginModel.toJSON());
+            }else{
+                res.status(404).json("Login n„o encontrado!");
             }
-            res.status(200).json(listaRetorno);
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }
@@ -31,6 +31,7 @@ class loginController{
         if(Object.keys(req.body).length > 0){
             let loginModel = new LoginModel();
 
+            loginModel.idUsu = 0;
             loginModel.login = req.body.login;
             loginModel.senha = req.body.senha;
             loginModel.adm = req.body.adm;
@@ -48,6 +49,8 @@ class loginController{
     async alterar(req,res){
         if(Object.keys(req.body).length > 0){
             let loginModel = new LoginModel();
+
+            loginModel.idUsu = req.body.idUsu;
             loginModel.login = req.body.login;
             loginModel.senha = req.body.senha;
             loginModel.adm = req.body.adm;

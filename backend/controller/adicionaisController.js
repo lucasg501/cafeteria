@@ -15,14 +15,14 @@ class adicionaisController {
     async obter(req,res){
         if(req.params.idAdc != null){
             let adicionaisModel = new AdicionaisModel();
-            let lista = await adicionaisModel.obter(req.params.idAdc);
-            let listaRetorno = [];
-            for (let i = 0; i < lista.length; i++) {
-                listaRetorno.push(lista[i].toJSON());
+            adicionaisModel = await adicionaisModel.obter(req.params.idAdc);
+            if(adicionaisModel != null){
+                res.status(200).json(adicionaisModel.toJSON());
+            }else{
+                res.status(404).json("Adicional n„o encontrado!");
             }
-            res.status(200).json(listaRetorno);
         }else{
-            res.status(400).json("Parâmetros inválidos");
+            res.status(400).json("Par‚metros inv·lidos");
         }
     }
 

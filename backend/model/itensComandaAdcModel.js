@@ -40,11 +40,11 @@ class ItensComandaAdcModel {
     let sql = "select * from itens_comanda_adicionais where id_item = ?";
     let valores = [idItem];
     let rows = await banco.ExecutaComando(sql, valores);
-    let lista = [];
-    for(let i = 0; i < rows.length; i++){
-        lista.push(new ItensComandaAdcModel(rows[i]['id_item'], rows[i]['id_adc']));
+    if(rows.length > 0){
+        let itensComandaAdc = new ItensComandaAdcModel(rows[0]['id_item'], rows[0]['id_adc']);
+        return itensComandaAdc;
     }
-    return lista;
+    return null;
    }
 }
 

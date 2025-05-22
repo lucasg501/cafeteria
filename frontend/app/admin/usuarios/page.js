@@ -22,6 +22,23 @@ export default function Usuarios() {
             })
     }
 
+    function excluirUsuario(idUsu){
+        let status = 0;
+        httpClient.delete(`/login/excluir/${idUsu}`)	
+        .then(r=>{
+            status = r.status;
+            return r.json();
+        })
+        .then(r=>{
+            if(status == 200){
+                alert('Usuário excluido com sucesso!');
+                window.location.href = '/admin/usuarios';
+            }else{
+                alert('Erro ao excluir usuário!');
+            }
+        })
+    }
+
     useEffect(() => {
         carregarUsuarios();
     }, []);
@@ -71,7 +88,13 @@ export default function Usuarios() {
                                                 <button type="button" className="btn btn-primary">Editar</button>
                                             </Link>
 
-                                            <button style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Excluir</button>
+                                            <button style={{ marginLeft: "10px" }} type="button" className="btn btn-danger" 
+                                                onClick={() =>{
+                                                    if(window.confirm('Tem certeza que deseja excluir o usuário?')){
+                                                        excluirUsuario(value.idUsu);
+                                                    }
+                                                }}
+                                            >Excluir</button>
 
                                         </td>
                                     </tr>

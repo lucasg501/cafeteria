@@ -53,7 +53,7 @@ export default function Categorias() {
 
             <div>
                 <a href="/admin/categorias/criar">
-                    <button className="btn btn-primary">Cadastrar</button>
+                    <button style={{margin: 10}} className="btn btn-primary">Cadastrar</button>
                 </a>
             </div>
 

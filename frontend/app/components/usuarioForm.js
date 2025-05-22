@@ -45,7 +45,7 @@ export default function UsuarioForm(props) {
     function alterarUsuario(){
         let status = 0;
         if (login.current.value != '' && senha.current.value != '') {
-            httpClient.post('/login/alterar', {
+            httpClient.put('/login/alterar', {
                 idUsu: usuario.idUsu,
                 login: login.current.value,
                 senha: senha.current.value,

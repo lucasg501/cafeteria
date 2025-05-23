@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import httpClient from "../utils/httpClient";
 
 export default function AdicionaisForm(props) {
-    const nomeAdc = useRef(props.adicional ? props.adicional[0].nomeAdc : '');
-    const valorAdc = useRef(props.adicional ? props.adicional[0].valorAdc : 0);
+    const nomeAdc = useRef(props.adicional ? props.adicional.nomeAdc : '');
+    const valorAdc = useRef(props.adicional ? props.adicional.valorAdc : 0);
 
     const [adicional, setAdicional] = useState(
         props.adicional ? props.adicional : { idAdc: 0, nomeAdc: '', valorAdc: 0 }
@@ -42,7 +42,7 @@ export default function AdicionaisForm(props) {
         let status = 0;
         if (adicional.idAdc !== 0 && adicional.nomeAdc !== '' && adicional.valorAdc != 0) {
             httpClient.put('/adicionais/alterar', {
-                idAdc: adicional[0].idAdc,
+                idAdc: adicional.idAdc,
                 nomeAdc: nomeAdc.current.value,
                 valorAdc: valorAdc.current.value
             })

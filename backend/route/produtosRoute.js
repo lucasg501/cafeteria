@@ -1,5 +1,6 @@
 const express = require('express');
 const produtoController = require('../controller/produtoController');
+const upload = require('../middlewares/upload');
 const router = express.Router();
 
 const ctrl = new produtoController();
@@ -11,7 +12,7 @@ router.get('/listar', (req,res) =>{
     ctrl.listar(req,res);
 });
 
-router.post('/gravar', (req,res) =>{
+router.post('/gravar', upload.single('foto'), (req,res) =>{
     // #swagger.tags = ['Produtos']
     // #swagger.summary = 'Adiciona um novo produto'
     /*
@@ -36,7 +37,7 @@ router.get('/obter/:idProd', (req,res) =>{
     ctrl.obter(req,res);
 });
 
-router.put('/alterar', (req,res) =>{
+router.put('/alterar', upload.single('foto'), (req,res) =>{
     // #swagger.tags = ['Produtos']
     // #swagger.summary = 'Altera um produto'
     /*

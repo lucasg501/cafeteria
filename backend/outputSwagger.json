@@ -1002,7 +1002,7 @@
             "type": "string",
             "example": "Uma coca cola gelada de 2LT"
           },
-          "idCatAdc": {
+          "idCatadc": {
             "type": "number",
             "example": 0
           }

@@ -5,6 +5,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "localstorage": "^1.0.1",
+    "multer": "^2.0.0",
     "mysql2": "^3.12.0",
     "node": "^23.9.0",
     "router": "^2.2.0",

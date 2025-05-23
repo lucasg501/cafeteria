@@ -63,7 +63,7 @@ class produtosModel {
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new produtosModel(rows[i]['id_produto'], rows[i]['nome_produto'], rows[i]['id_Catadc'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_Cat']));
+            lista.push(new produtosModel(rows[i]['id_produto'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_Catadc']));
         }
         return lista;
     }
@@ -80,7 +80,7 @@ class produtosModel {
         let valores = [idProd];
         let rows = await Banco.ExecutaComando(sql, valores);
         if(rows.length > 0){
-            let produto = new produtosModel(rows[0]['id_produto'], rows[0]['nome_produto'], rows[0]['id_Catadc'], rows[0]['valor'], rows[0]['foto'], rows[0]['ativo'], rows[0]['descricao'], rows[0]['id_Cat']);
+            let produto = new produtosModel(rows[0]['id_produto'], rows[0]['nome_produto'], rows[0]['id_cat'], rows[0]['valor'], rows[0]['foto'], rows[0]['ativo'], rows[0]['descricao'], rows[0]['id_Catadc']);	
             return produto;
         }
         return null;

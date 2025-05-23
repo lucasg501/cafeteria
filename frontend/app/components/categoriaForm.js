@@ -42,7 +42,7 @@ export default function CategoriaForm(props) {
         let status = 0;
         if (categoria.idCat !== 0 && categoria.nomeCat !== '') {
             httpClient.put('/categoria/alterar', {
-                idCat: categoria[0].idCat,
+                idCat: categoria.idCat,
                 nomeCat: nomeCat.current.value
             })
                 .then(r => {

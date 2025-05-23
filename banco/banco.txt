@@ -77,3 +77,28 @@ ADD id_Catadc INT;
 ALTER TABLE adicionais
 ADD CONSTRAINT fk_adicionais_categoria
 FOREIGN KEY (id_Catadc) REFERENCES categoriaAdicional(id_Catadc);
+
+
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'produto'
+  AND COLUMN_NAME = 'id_adc'
+  AND TABLE_SCHEMA = 'cafeteria'
+  AND REFERENCED_TABLE_NAME IS NOT NULL;
+  
+  use cafeteria;
+
+-- Remover a foreign key da coluna id_adc
+ALTER TABLE produto DROP FOREIGN KEY produto_ibfk_1;
+
+-- (Opcional) Remover a coluna id_adc da tabela produto
+ALTER TABLE produto DROP COLUMN id_adc;
+
+-- Adicionar a coluna id_Catadc à tabela produto
+ALTER TABLE produto
+ADD id_Catadc INT;
+
+-- Adicionar a constraint de chave estrangeira
+ALTER TABLE produto
+ADD CONSTRAINT fk_produto_categoriaAdicional
+FOREIGN KEY (id_Catadc) REFERENCES categoriaAdicional(id_Catadc);

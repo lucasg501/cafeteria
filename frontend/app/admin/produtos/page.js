@@ -45,11 +45,11 @@ export default function Produtos() {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Categoria</th>
-                            <th>Valor</th>
+                            <th>Categoria do Adicional</th>
                             <th>Foto</th>
                             <th>Ativo</th>
                             <th>Descrição</th>
-                            <th>Adicionais</th>
+                            <th>Valor</th>
                             <th>Editar</th>
                             <th>Excluir</th>
                         </tr>
@@ -63,14 +63,17 @@ export default function Produtos() {
                                         <td>{value.idProd}</td>
                                         <td>{value.nomeProd}</td>
                                         <td>{value.idCat}</td>
-                                        <td>{value.valorProd}</td>
+                                        <td>{value.idCatadc}</td>
                                         <td>{value.foto}</td>
                                         <td>{value.ativo}</td>
                                         <td>{value.descricao}</td>
-                                        <td>{value.idAdc}</td>
+                                        <td>R$ {value.valorProd}</td>
                                         <td>
-                                            <Link href={`/admin/produtos/editar/${value.idProd}`}>Editar</Link>
-
+                                            <Link href={`/admin/produtos/alterar/${value.idProd}`}>
+                                                <button className="btn btn-primary">Editar</button>
+                                            </Link>
+                                        </td>
+                                        <td>
                                             <button style={{ marginLeft: "10px" }} type="button" className="btn btn-danger"
                                                 onClick={() => {
                                                     if (window.confirm('Tem certeza que deseja excluir o usuário?')) {

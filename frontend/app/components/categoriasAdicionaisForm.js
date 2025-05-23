@@ -4,7 +4,7 @@ import httpClient from "../utils/httpClient";
 
 export default function CategoriasAdicionaisForm(props) {
 
-    const nomeCatAdc = useRef(props.categoriaAdicionai ? props.categoriaAdicional.nomeCatAdc : '');
+    const nomeCatAdc = useRef(props.categoriaAdicional ? props.categoriaAdicional.nomeCatAdc : '');
 
     const [catAdicionais, setCatAdicionais] = useState(
         props.categoriaAdicional ? props.categoriaAdicional : { idCatAdc: 0, nomeCatAdc: '' }

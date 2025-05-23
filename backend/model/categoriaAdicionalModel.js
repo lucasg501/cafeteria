@@ -49,7 +49,7 @@ class categoriaAdicionalModel {
         let valores = [idCatAdc];
         let rows = await banco.ExecutaComando(sql, valores);
         if(rows.length > 0){
-            let categoriaAdicional = new categoriaAdicionalModel(rows[0]['id_CatAdc'], rows[0]['nomeAdcCat']);
+            let categoriaAdicional = new categoriaAdicionalModel(rows[0]['id_Catadc'], rows[0]['nomeAdcCat']);
             return categoriaAdicional;
         }else{
             return null;

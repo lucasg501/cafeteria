@@ -1,8 +1,8 @@
 'use client'
-export default function CategoriasAdicionaisForm(){
+import CategoriasAdicionaisForm from "@/app/components/categoriasAdicionaisForm"
+export default function CategoriasAdicionaisCriar(){
     return(
         <div>
-            <h1>Categorias Adicionais</h1>
             <CategoriasAdicionaisForm></CategoriasAdicionaisForm>
         </div>
     )

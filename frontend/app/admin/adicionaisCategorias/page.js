@@ -79,7 +79,7 @@ export default function AdicionaisCategorias() {
                                             <th>{value.idCatAdc}</th>
                                             <th>{value.nomeCatAdc}</th>
                                             <th>
-                                                <Link href={`/admin/adicionaisCategorias/editar/${value.idCatAdc}`} className="btn btn-primary">Editar</Link>
+                                                <Link href={`/admin/adicionaisCategorias/alterar/${value.idCatAdc}`} className="btn btn-primary">Editar</Link>
 
                                                 <button style={{ marginLeft: "10px" }} type="button" className="btn btn-danger"
                                                     onClick={() => {

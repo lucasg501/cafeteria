@@ -2,67 +2,80 @@
 import { useEffect, useRef, useState } from "react";
 import httpClient from "../utils/httpClient";
 
-export default function CategoriasAdicionaisForm(props){
+export default function CategoriasAdicionaisForm(props) {
 
-    const [catAdicionais, setCatAdicionais] = useState([]);
+    const nomeCatAdc = useRef(props.categoriaAdicionai ? props.categoriaAdicional.nomeCatAdc : '');
 
-    const nomeCatAdc = useRef(props.catAdicionais ? props.catAdicionais.nomeCatAdc : '');
-    const idCatAdc = useRef(props.catAdicionais ? props.catAdicionais.idCatAdc : '');
+    const [catAdicionais, setCatAdicionais] = useState(
+        props.categoriaAdicional ? props.categoriaAdicional : { idCatAdc: 0, nomeCatAdc: '' }
+    );
 
-    function cadastrarCatAdicional(){
+    useEffect(() => {
+        if (props.catAdicionais) {
+            setCatAdicionais(props.catAdicionais);
+        }
+    })
+
+    function cadastrarCatAdicional() {
         let status = 0;
 
-        httpClient.post('/categoriaAdicional/gravar', {
-            nomeCatAdc: nomeCatAdc.current.value
-        })
-        .then(r=>{
-            status = r.status;
-            return r.json();
-        })
-        .then(r=>{
-            if(status == 200){
-                alert('Categoria adicionada com sucesso!');
-                window.location.href = '/admin/adicionaisCategorias';
-            }else{
-                alert('Erro ao cadastrar categoria!');
-            }
-        })
+        if (nomeCatAdc != '') {
+            httpClient.post('/categoriaAdicional/gravar', {
+                nomeCatAdc: nomeCatAdc.current.value
+            })
+                .then(r => {
+                    status = r.status;
+                    return r.json();
+                })
+                .then(r => {
+                    if (status == 200) {
+                        alert('Categoria adicionada com sucesso!');
+                        window.location.href = '/admin/adicionaisCategorias';
+                    } else {
+                        alert('Erro ao cadastrar categoria!');
+                    }
+                })
+        } else {
+            alert('Preencha o formulário corretamente');
+        }
     }
 
-    function alterarCatAdicional(){
+    function alterarCatAdicional() {
         let status = 0;
 
-        httpClient.put('/categoriaAdicional/alterar', {
-            idCatAdc: idCatAdc.current.value,
-            nomeCatAdc: nomeCatAdc.current.value
-        })
-        .then(r=>{
-            status = r.status;
-            return r.json();
-        })
-        .then(r=>{
-            if(status == 200){
-                alert('Categoria alterada com sucesso!');
-                window.location.href = '/admin/adicionaisCategorias';
-            }else{
-                alert('Erro ao alterar categoria!');
-            }
-        })
+        if (catAdicionais.idCatAdc != 0 && catAdicionais.nomeCatAdc != '') {
+            httpClient.put('/categoriaAdicional/alterar', {
+                idCatAdc: catAdicionais.idCatAdc,
+                nomeCatAdc: nomeCatAdc.current.value
+            })
+                .then(r => {
+                    status = r.status;
+                    return r.json();
+                })
+                .then(r => {
+                    if (status == 200) {
+                        alert('Categoria alterada com sucesso!');
+                        window.location.href = '/admin/adicionaisCategorias';
+                    } else {
+                        alert('Erro ao alterar categoria!');
+                    }
+                })
+        }
     }
 
-    return(
+    return (
         <div>
             <div>
                 <h1>{catAdicionais.idCatAdc != 0 ? 'Alterar Categoria Adicional' : 'Cadastrar Categoria Adicional'}</h1>
-            </div>       
-
-            <div className="form-group">
-                <label>Nome:</label>
-                <input type="text" className="form-control" ref={nomeCatAdc} defaultValue={props.catAdicionais}></input>
             </div>
 
             <div className="form-group">
-                <button className="btn btn-primary" onClick={props.catAdicionais.idCatAdc != 0 ? alterarCatAdicional : cadastrarCatAdicional}>{props.catAdicionais.idCatAdc != 0 ? 'Alterar' : 'Cadastrar'}</button>
+                <label>Nome:</label>
+                <input type="text" className="form-control" ref={nomeCatAdc} defaultValue={catAdicionais.nomeCatAdc}></input>
+            </div>
+
+            <div className="form-group">
+                <button className="btn btn-primary" onClick={catAdicionais.idCatAdc != 0 ? alterarCatAdicional : cadastrarCatAdicional}>{catAdicionais.idCatAdc != 0 ? 'Alterar' : 'Cadastrar'}</button>
             </div>
         </div>
     )

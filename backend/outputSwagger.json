@@ -897,6 +897,9 @@
           "valorAdc": {
             "type": "string",
             "example": "3.50"
+          },
+          "idCat": {
+            "type": "undefined"
           }
         }
       },

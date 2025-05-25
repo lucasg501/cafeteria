@@ -33,6 +33,7 @@ class adicionaisController {
             adicionaisModel.idAdc = 0;
             adicionaisModel.nomeAdc = req.body.nomeAdc;
             adicionaisModel.valorAdc = req.body.valorAdc;
+            adicionaisModel.idCat = req.body.idCatAdc;
             let ok = await adicionaisModel.gravar();
             if (ok) {
                 res.status(200).json("Adicional incluído com sucesso!")

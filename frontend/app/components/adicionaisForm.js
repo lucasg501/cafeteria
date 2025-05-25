@@ -1,16 +1,32 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import httpClient from "../utils/httpClient";
 
 export default function AdicionaisForm(props) {
     const nomeAdc = useRef(props.adicional ? props.adicional.nomeAdc : '');
     const valorAdc = useRef(props.adicional ? props.adicional.valorAdc : 0);
+    const idCatAdc = useRef(props.adicional ? props.adicional.idAdc : 0);
 
     const [adicional, setAdicional] = useState(
         props.adicional ? props.adicional : { idAdc: 0, nomeAdc: '', valorAdc: 0 }
     );
 
+    const [listaCategoriasAdc, setListaCategoriasAdc] = useState([]);
+
+    function carregarCategoriasAdc() {
+        httpClient.get('/categoriaAdicional/listar')
+            .then(r => {
+                return r.json();
+            })
+            .then(r => {
+                setListaCategoriasAdc(r);
+            });
+    }
+
+    useEffect(() =>{
+        carregarCategoriasAdc();
+    },[])
 
     useEffect(() => {
         if (props.adicional) {
@@ -23,7 +39,8 @@ export default function AdicionaisForm(props) {
         if (nomeAdc.current.value !== '' && valorAdc.current.value != 0) {
             httpClient.post('/adicionais/gravar', {
                 nomeAdc: nomeAdc.current.value,
-                valorAdc: valorAdc.current.value
+                valorAdc: valorAdc.current.value,
+                idCatAdc: idCatAdc.current.value
             })
                 .then(r => {
                     status = r.status;
@@ -44,7 +61,8 @@ export default function AdicionaisForm(props) {
             httpClient.put('/adicionais/alterar', {
                 idAdc: adicional.idAdc,
                 nomeAdc: nomeAdc.current.value,
-                valorAdc: valorAdc.current.value
+                valorAdc: valorAdc.current.value,
+                idCatAdc: idCatAdc.current.value
             })
                 .then(r => {
                     status = r.status;
@@ -72,7 +90,7 @@ export default function AdicionaisForm(props) {
                         type="text"
                         className="form-control"
                         ref={nomeAdc}
-                        defaultValue={nomeAdc.current}
+                        defaultValue={adicional.nomeAdc}
                     />
                 </div>
 
@@ -82,9 +100,24 @@ export default function AdicionaisForm(props) {
                         type="number"
                         className="form-control"
                         ref={valorAdc}
-                        defaultValue={valorAdc.current}
+                        defaultValue={adicional.valorAdc}
                     />
                 </div>
+            </div>
+
+            <div className="form-group">
+                <label>Categoria</label>
+                <select className="form-control" ref={idCatAdc} defaultValue={adicional.idCatAdc}>
+                    {
+                        listaCategoriasAdc.map(function(value,index){
+                            if(adicional.idCat == value.idCatAdc){
+                                return <option key={index} value={value.idCatAdc} selected>{value.nomeCatAdc}</option>
+                            }else{
+                                return <option key={index} value={value.idCatAdc}>{value.nomeCatAdc}</option>
+                            }
+                        })
+                    }
+                </select>
             </div>
 
             <button className="btn btn-primary" onClick={adicional.idAdc != 0 ? alterarAdicional : cadastrarAdicional}>

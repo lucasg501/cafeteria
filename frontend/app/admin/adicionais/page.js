@@ -62,6 +62,7 @@ export default function Adicionais() {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Valor</th>
+                            <th>Categoria Adicional</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -72,6 +73,7 @@ export default function Adicionais() {
                                     <tr key={index}>
                                         <td>{value.idAdc}</td>
                                         <td>{value.nomeAdc}</td>
+                                        <td>{value.idCat}</td>
                                         <td>R$ {value.valorAdc}</td>
                                         <td>
                                             <Link href={`/admin/adicionais/alterar/${value.idAdc}`}>

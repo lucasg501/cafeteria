@@ -331,6 +331,30 @@
         }
       }
     },
+    "/comanda/obter/{idComanda}": {
+      "get": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Lista uma comanda cadastrada com base no ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idComanda",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/comanda/gravar": {
       "post": {
         "tags": [

@@ -11,6 +11,13 @@ router.get('/listar', (req,res) =>{
     ctrl.listar(req,res);
 });
 
+router.get('/obter/:idComanda', (req,res) =>{
+    // #swagger.tags = ['Comandas']
+    // #swagger.summary = 'Lista uma comanda cadastrada com base no ID'
+
+    ctrl.obter(req,res);
+});
+
 router.post('/gravar', (req,res) =>{
     // #swagger.tags = ['Comandas']
     // #swagger.summary = 'Adiciona uma nova comanda'

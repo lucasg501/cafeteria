@@ -19,6 +19,21 @@ export default function Mesas(){
         })
     }
 
+    function excluirMesa(idMesa){
+        let status = 0;
+        httpClient.delete(`/mesa/excluir/${idMesa}`)
+        .then(r=>{
+            status = r.status;
+            return r.json();
+        })
+        .then(r=>{
+            if(status == 200){
+                alert('Mesa excluida com sucesso!');
+                window.location.href = '/admin/mesas';
+            }
+        })
+    }
+
     useEffect(()=>{
         carregarMesas();
     },[]);
@@ -52,7 +67,9 @@ export default function Mesas(){
                                     <tr key={value.idMesa}>
                                         <td>{value.idMesa}</td>
                                         <td>{value.numMesa}</td>
-                                        <td><Link href={`/admin/mesas/excluir/${value.idMesa}`}><button type="button" class="btn btn-danger">Excluir</button></Link></td>
+                                        <td>
+                                            <button type="button" className="btn btn-danger" onClick={() => excluirMesa(value.idMesa)}>Excluir</button>
+                                        </td>
                                     </tr>
                                 )
                             })

@@ -33,7 +33,7 @@ class adicionaisController {
             adicionaisModel.idAdc = 0;
             adicionaisModel.nomeAdc = req.body.nomeAdc;
             adicionaisModel.valorAdc = req.body.valorAdc;
-            adicionaisModel.idCat = req.body.idCatAdc;
+            adicionaisModel.idCat = req.body.idCat;
             let ok = await adicionaisModel.gravar();
             if (ok) {
                 res.status(200).json("Adicional incluído com sucesso!")
@@ -52,6 +52,7 @@ class adicionaisController {
             adicionaisModel.idAdc = req.body.idAdc;
             adicionaisModel.nomeAdc = req.body.nomeAdc;
             adicionaisModel.valorAdc = req.body.valorAdc;
+            adicionaisModel.idCat = req.body.idCat;
             let ok = await adicionaisModel.gravar();
             if (ok) {
                 res.status(200).json("Adicional alterado com sucesso!")

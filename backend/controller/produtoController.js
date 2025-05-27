@@ -23,7 +23,6 @@ async gravar(req, res) {
         produtoModel.foto = req.file ? `/uploads/${req.file.filename}` : null;
         produtoModel.ativo = req.body.ativo === 'true' || req.body.ativo === true;
         produtoModel.descricao = req.body.descricao;
-        produtoModel.idCatAdc = req.body.idCatAdc;
 
         let ok = await produtoModel.gravar();
         if (ok) {
@@ -55,7 +54,6 @@ async alterar(req, res) {
 
         produtoModel.ativo = req.body.ativo === 'true' || req.body.ativo === true;
         produtoModel.descricao = req.body.descricao;
-        produtoModel.idCatAdc = req.body.idCatAdc;
 
         // Chamar método alterar, não gravar
         let ok = await produtoModel.gravar();

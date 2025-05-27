@@ -13,10 +13,9 @@ export default function ProdutosForm(props) {
     const descricao = useRef(null);
 
     const [produto, setProduto] = useState(props.produto ? props.produto : {
-        idProd: 0, nomeProd: '', idCat: 0, valorProd: '', foto: '', ativo: '', descricao: '', idCatAdc: 0
+        idProd: 0, nomeProd: '', idCat: 0, valorProd: '', foto: '', ativo: '', descricao: ''
     });
 
-    const [listaCategoriaAdicional, setListaCategoriaAdicional] = useState([]);
     const [listaCategoria, setListaCategoria] = useState([]);
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [nomeArquivo, setNomeArquivo] = useState(produto.foto || '');
@@ -42,22 +41,6 @@ export default function ProdutosForm(props) {
         }
     }, [props.produto]);
 
-    function listarCategoriaAdicional() {
-        let status = 0;
-        httpClient.get('/categoriaAdicional/listar')
-            .then(r => {
-                status = r.status;
-                return r.json();
-            })
-            .then(r => {
-                if (status === 200) {
-                    setListaCategoriaAdicional(r);
-                } else {
-                    alert('Erro ao listar categorias!');
-                }
-            })
-    }
-
     function listarCategoria() {
         let status = 0;
         httpClient.get('/categoria/listar')
@@ -78,7 +61,6 @@ export default function ProdutosForm(props) {
         const formData = new FormData();
         formData.append('nomeProd', nomeProd.current.value);
         formData.append('idCat', idCat.current.value);
-        formData.append('idCatAdc', idCatAdc.current.value);
         formData.append('valorProd', valorProd.current.value);
         if (arquivoSelecionado) {
             formData.append('foto', arquivoSelecionado);
@@ -107,7 +89,6 @@ export default function ProdutosForm(props) {
         formData.append('idProd', produto.idProd);
         formData.append('nomeProd', nomeProd.current.value);
         formData.append('idCat', idCat.current.value);
-        formData.append('idCatAdc', idCatAdc.current.value);
         formData.append('valorProd', valorProd.current.value);
         if (arquivoSelecionado) {
             formData.append('foto', arquivoSelecionado);
@@ -142,7 +123,6 @@ export default function ProdutosForm(props) {
     }
 
     useEffect(() => {
-        listarCategoriaAdicional();
         listarCategoria();
     }, []);
 
@@ -162,18 +142,6 @@ export default function ProdutosForm(props) {
                     {
                         listaCategoria.map((value, index) => (
                             <option key={index} value={value.idCat}>{value.nomeCat}</option>
-                        ))
-                    }
-                </select>
-            </div>
-
-            <div className="form-group">
-                <label>Categoria dos Adicionais</label>
-                <select className="form-control" ref={idCatAdc} defaultValue={produto.idCatAdc}>
-                    <option value={0}>Selecione uma categoria</option>
-                    {
-                        listaCategoriaAdicional.map((value, index) => (
-                            <option key={index} value={value.idCatAdc}>{value.nomeCatAdc}</option>
                         ))
                     }
                 </select>

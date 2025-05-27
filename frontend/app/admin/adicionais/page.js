@@ -6,6 +6,29 @@ import Link from 'next/link';
 export default function Adicionais() {
 
     const [listaadicionais, setListaAdicionais] = useState([]);
+    const [listaCatAdicionais, setListaCatAdicionais] = useState([]);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState(''); // '' mostra todas
+
+    function listarCatAdicionais() {
+        let status = 0;
+        httpClient.get('/categoria/listar')
+            .then(r => {
+                status = r.status;
+                return r.json();
+            })
+            .then(r => {
+                if (status == 200) {
+                    setListaCatAdicionais(r);
+                } else {
+                    alert('Erro ao listar categorias dos adicionais!');
+                }
+            })
+    }
+
+    function getNomeCategoria(idCat) {
+        const categoria = listaCatAdicionais.find(cat => cat.idCat === idCat);
+        return categoria ? categoria.nomeCat : 'Categoria não encontrada';
+    }
 
     function listarAdicionais() {
         let status = 0;
@@ -42,6 +65,7 @@ export default function Adicionais() {
 
     useEffect(() => {
         listarAdicionais();
+        listarCatAdicionais();
     }, []);
 
     return (
@@ -54,6 +78,27 @@ export default function Adicionais() {
                     <button style={{ margin: '10px' }} className="btn btn-primary">Cadastrar</button>
                 </a>
             </div>
+
+            <div style={{ margin: '10px 0' }}>
+                <label htmlFor="categoria">Filtrar por categoria: </label>
+                <select
+                    id="categoria"
+                    value={categoriaSelecionada}
+                    onChange={(e) => setCategoriaSelecionada(e.target.value)}
+                    className="form-select"
+                    style={{ width: '300px', display: 'inline-block', marginLeft: '10px' }}
+                >
+                    <option value="">Todas as categorias</option>
+                    {
+                        listaCatAdicionais.map(cat => (
+                            <option key={cat.idCat} value={cat.idCat}>
+                                {cat.nomeCat}
+                            </option>
+                        ))
+                    }
+                </select>
+            </div>
+
 
             <div>
                 <table className="table table-striped table-bordered">
@@ -68,23 +113,26 @@ export default function Adicionais() {
                     </thead>
                     <tbody>
                         {
-                            listaadicionais.map(function (value, index) {
-                                return (
-                                    <tr key={index}>
-                                        <td>{value.idAdc}</td>
-                                        <td>{value.nomeAdc}</td>
-                                        <td>{value.idCat}</td>
-                                        <td>R$ {value.valorAdc}</td>
-                                        <td>
-                                            <Link href={`/admin/adicionais/alterar/${value.idAdc}`}>
-                                                <button className="btn btn-primary">Alterar</button>
-                                            </Link>
-                                            <button onClick={() => excluirAdicional(value.idAdc)} style={{ marginLeft: '10px' }} className="btn btn-danger">Excluir</button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                            listaadicionais
+                                .filter(adc => categoriaSelecionada === '' || adc.idCat === parseInt(categoriaSelecionada))
+                                .map(function (value, index) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{value.idAdc}</td>
+                                            <td>{value.nomeAdc}</td>
+                                            <td>{getNomeCategoria(value.idCat)}</td>
+                                            <td>R$ {value.valorAdc}</td>
+                                            <td>
+                                                <Link href={`/admin/adicionais/alterar/${value.idAdc}`}>
+                                                    <button className="btn btn-primary">Alterar</button>
+                                                </Link>
+                                                <button onClick={() => excluirAdicional(value.idAdc)} style={{ marginLeft: '10px' }} className="btn btn-danger">Excluir</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                         }
+
                     </tbody>
                 </table>
             </div>

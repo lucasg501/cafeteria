@@ -6,7 +6,7 @@ import httpClient from "../utils/httpClient";
 export default function AdicionaisForm(props) {
     const nomeAdc = useRef(props.adicional ? props.adicional.nomeAdc : '');
     const valorAdc = useRef(props.adicional ? props.adicional.valorAdc : 0);
-    const idCatAdc = useRef(props.adicional ? props.adicional.idAdc : 0);
+    const idCat = useRef(props.adicional ? props.adicional.idAdc : 0);
 
     const [adicional, setAdicional] = useState(
         props.adicional ? props.adicional : { idAdc: 0, nomeAdc: '', valorAdc: 0 }
@@ -15,7 +15,7 @@ export default function AdicionaisForm(props) {
     const [listaCategoriasAdc, setListaCategoriasAdc] = useState([]);
 
     function carregarCategoriasAdc() {
-        httpClient.get('/categoriaAdicional/listar')
+        httpClient.get('/categoria/listar')
             .then(r => {
                 return r.json();
             })
@@ -40,7 +40,7 @@ export default function AdicionaisForm(props) {
             httpClient.post('/adicionais/gravar', {
                 nomeAdc: nomeAdc.current.value,
                 valorAdc: valorAdc.current.value,
-                idCatAdc: idCatAdc.current.value
+                idCat: idCat.current.value
             })
                 .then(r => {
                     status = r.status;
@@ -62,7 +62,7 @@ export default function AdicionaisForm(props) {
                 idAdc: adicional.idAdc,
                 nomeAdc: nomeAdc.current.value,
                 valorAdc: valorAdc.current.value,
-                idCatAdc: idCatAdc.current.value
+                idCat: idCat.current.value
             })
                 .then(r => {
                     status = r.status;
@@ -107,13 +107,14 @@ export default function AdicionaisForm(props) {
 
             <div className="form-group">
                 <label>Categoria</label>
-                <select className="form-control" ref={idCatAdc} defaultValue={adicional.idCatAdc}>
+                <select className="form-control" ref={idCat} defaultValue={adicional.idCat}>
+                    <option value={0}>Selecione uma categoria</option>
                     {
                         listaCategoriasAdc.map(function(value,index){
-                            if(adicional.idCat == value.idCatAdc){
-                                return <option key={index} value={value.idCatAdc} selected>{value.nomeCatAdc}</option>
+                            if(adicional.idCat == value.idCat){
+                                return <option key={index} value={value.idCat} selected>{value.nomeCat}</option>
                             }else{
-                                return <option key={index} value={value.idCatAdc}>{value.nomeCatAdc}</option>
+                                return <option key={index} value={value.idCat}>{value.nomeCat}</option>
                             }
                         })
                     }

@@ -7,6 +7,26 @@ import { useState, useEffect } from "react"
 export default function Produtos() {
 
     const [listaProdutos, setListaProdutos] = useState([]);
+    const [listaCategorias, setListaCategorias] = useState([]);
+
+    function carregarCategorias(){
+        let status = 0;
+        httpClient.get('/categoria/listar')
+        .then(r => {
+            status = r.status;
+            return r.json();
+        })
+        .then(r => {
+            if(status == 200){
+                setListaCategorias(r);
+            }
+        })
+    }
+
+    function getNomeCategoria(idCat){
+        const categoria = listaCategorias.find(cat => cat.idCat === idCat);
+        return categoria ? categoria.nomeCat : 'Categoria não encontrada';
+    }
 
     function carregarProdutos() {
         let status = 0;
@@ -22,8 +42,27 @@ export default function Produtos() {
             })
     }
 
+    function excluirProduto(idProd) {
+        let status = 0;
+
+        httpClient.delete(`/produto/excluir/${idProd}`)
+            .then(r => {
+                status = r.status;
+                return r.json();
+            })
+            .then(r => {
+                if (status == 200) {
+                    alert('Produto excluido com sucesso!');
+                    window.location.href = '/admin/produtos';
+                } else {
+                    alert('Erro ao excluir produto!');
+                }
+            })
+    }
+
     useEffect(() => {
         carregarProdutos();
+        carregarCategorias();
     }, [])
 
     return (
@@ -45,7 +84,6 @@ export default function Produtos() {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Categoria</th>
-                            <th>Categoria do Adicional</th>
                             <th>Foto</th>
                             <th>Ativo</th>
                             <th>Descrição</th>
@@ -62,9 +100,15 @@ export default function Produtos() {
                                     <tr key={index}>
                                         <td>{value.idProd}</td>
                                         <td>{value.nomeProd}</td>
-                                        <td>{value.idCat}</td>
-                                        <td>{value.idCatadc}</td>
-                                        <td>{value.foto}</td>
+                                        <td>{getNomeCategoria(value.idCat)}</td>
+                                        <td>
+                                            <img
+                                                src={`http://localhost:4000${value.foto}`}
+                                                alt={value.nomeProd}
+                                                style={{ width: 50, height: 50}}
+                                            />
+                                        </td>
+
                                         <td>{value.ativo}</td>
                                         <td>{value.descricao}</td>
                                         <td>R$ {value.valorProd}</td>
@@ -76,8 +120,8 @@ export default function Produtos() {
                                         <td>
                                             <button style={{ marginLeft: "10px" }} type="button" className="btn btn-danger"
                                                 onClick={() => {
-                                                    if (window.confirm('Tem certeza que deseja excluir o usuário?')) {
-                                                        excluirUsuario(value.idProd);
+                                                    if (window.confirm('Tem certeza que deseja excluir o produto?')) {
+                                                        excluirProduto(value.idProd);
                                                     }
                                                 }}
                                             >Excluir</button>

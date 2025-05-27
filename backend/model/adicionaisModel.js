@@ -33,19 +33,19 @@ class adicionaisModel{
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new adicionaisModel(rows[i]['id_adc'], rows[i]['nome_adc'], rows[i]['valor_adc'], rows[i]['id_Catadc']));
+            lista.push(new adicionaisModel(rows[i]['id_adc'], rows[i]['nome_adc'], rows[i]['valor_adc'], rows[i]['id_cat']));
         }
         return lista;
     }
 
     async gravar(){
         if(this.#idAdc == 0){
-            let sql = "insert into adicionais (nome_adc, valor_adc, id_Catadc) values (?, ?, ?)";
+            let sql = "insert into adicionais (nome_adc, valor_adc, id_cat) values (?, ?, ?)";
             let valores = [this.#nomeAdc, this.#valorAdc, this.#idCat];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         }else{
-            let sql = "update adicionais set nome_adc = ?, valor_adc = ?, id_Catadc = ? where id_adc = ?";
+            let sql = "update adicionais set nome_adc = ?, valor_adc = ?, id_cat = ? where id_adc = ?";
             let valores = [this.#nomeAdc, this.#valorAdc, this.#idCat, this.#idAdc];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
@@ -69,7 +69,7 @@ class adicionaisModel{
         let valores = [idAdc];
         let rows = await Banco.ExecutaComando(sql, valores);
         if(rows.length > 0){
-            let adicionais = new adicionaisModel(rows[0]['id_adc'], rows[0]['nome_adc'], rows[0]['valor_adc'], rows[0]['id_Catadc']);
+            let adicionais = new adicionaisModel(rows[0]['id_adc'], rows[0]['nome_adc'], rows[0]['valor_adc'], rows[0]['id_cat']);
             return adicionais;
         }
         return null;

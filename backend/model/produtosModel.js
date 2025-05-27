@@ -9,7 +9,6 @@ class produtosModel {
     #foto;
     #ativo;
     #descricao;
-    #idCatadc;
 
     get idProd() { return this.#idProd } set idProd(idProd) { this.#idProd = idProd }
     get nomeProd() { return this.#nomeProd } set nomeProd(nomeProd) { this.#nomeProd = nomeProd }
@@ -18,9 +17,8 @@ class produtosModel {
     get foto() { return this.#foto } set foto(foto) { this.#foto = foto }
     get ativo() { return this.#ativo } set ativo(ativo) { this.#ativo = ativo }
     get descricao() { return this.#descricao } set descricao(descricao) { this.#descricao = descricao }
-    get idCatadc() { return this.#idCatadc } set idCatadc(idCatadc) { this.#idCatadc = idCatadc }
 
-    constructor(idProd, nomeProd, idCat, valorProd, foto, ativo, descricao, idCatadc) {
+    constructor(idProd, nomeProd, idCat, valorProd, foto, ativo, descricao) {
         this.#idProd = idProd;
         this.#nomeProd = nomeProd;
         this.#idCat = idCat;
@@ -28,7 +26,6 @@ class produtosModel {
         this.#foto = foto;
         this.#ativo = ativo;
         this.#descricao = descricao;
-        this.#idCatadc = idCatadc;
     }
 
     toJSON() {
@@ -39,20 +36,19 @@ class produtosModel {
             'valorProd': this.#valorProd,
             'foto': this.#foto,
             'ativo': this.#ativo,
-            'descricao': this.#descricao,
-            'idCatadc': this.#idCatadc
+            'descricao': this.#descricao
         }
     }
 
     async gravar() {
         if (this.#idProd == 0) {
-            let sql = "insert into produto (nome_produto, id_cat, valor, foto, ativo, descricao, id_Catadc) values (?, ?, ?, ?, ?, ?, ?)";
-            let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idCatadc];
+            let sql = "insert into produto (nome_produto, id_cat, valor, foto, ativo, descricao) values (?, ?, ?, ?, ?, ?)";
+            let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         } else {
             let sql = "update produto set nome_produto = ?, id_cat = ?, valor = ?, foto = ?, ativo = ?, descricao = ?, id_Catadc = ? where id_produto = ?";
-            let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idCatadc, this.#idProd];
+            let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idProd];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         }
@@ -63,7 +59,7 @@ class produtosModel {
         let rows = await Banco.ExecutaComando(sql);
         let lista = [];
         for(let i = 0; i < rows.length; i++){
-            lista.push(new produtosModel(rows[i]['id_produto'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao'], rows[i]['id_Catadc']));
+            lista.push(new produtosModel(rows[i]['id_produto'], rows[i]['nome_produto'], rows[i]['id_cat'], rows[i]['valor'], rows[i]['foto'], rows[i]['ativo'], rows[i]['descricao']));
         }
         return lista;
     }
@@ -80,7 +76,7 @@ class produtosModel {
         let valores = [idProd];
         let rows = await Banco.ExecutaComando(sql, valores);
         if(rows.length > 0){
-            let produto = new produtosModel(rows[0]['id_produto'], rows[0]['nome_produto'], rows[0]['id_cat'], rows[0]['valor'], rows[0]['foto'], rows[0]['ativo'], rows[0]['descricao'], rows[0]['id_Catadc']);	
+            let produto = new produtosModel(rows[0]['id_produto'], rows[0]['nome_produto'], rows[0]['id_cat'], rows[0]['valor'], rows[0]['foto'], rows[0]['ativo'], rows[0]['descricao']);	
             return produto;
         }
         return null;

@@ -379,6 +379,30 @@
         }
       }
     },
+    "/comanda/marcarPaga/{idComanda}": {
+      "put": {
+        "tags": [
+          "Comandas"
+        ],
+        "summary": "Marca uma comanda como paga",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idComanda",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/comanda/alterar": {
       "put": {
         "tags": [
@@ -623,7 +647,7 @@
       }
     },
     "/produto/alterar": {
-      "put": {
+      "post": {
         "tags": [
           "Produtos"
         ],

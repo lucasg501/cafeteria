@@ -36,6 +36,12 @@ router.post('/gravar', (req,res) =>{
     ctrl.gravar(req,res);
 });
 
+router.put('/marcarPaga/:idComanda', (req,res) =>{
+    // #swagger.tags = ['Comandas']
+    // #swagger.summary = 'Marca uma comanda como paga'
+    ctrl.marcarPaga(req,res);
+});
+
 router.put('/alterar', (req,res) =>{
     // #swagger.tags = ['Comandas']
     // #swagger.summary = 'Altera uma comanda cadastrada'

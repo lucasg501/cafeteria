@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import httpClient from "../utils/httpClient";
 import { parse } from 'cookie';
+import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProdutosForm(props) {
     const nomeProd = useRef(null);
@@ -49,7 +50,7 @@ export default function ProdutosForm(props) {
                 return r.json();
             })
             .then(r => {
-                if (status === 200) {
+                if (status == 200) {
                     setListaCategoria(r);
                 } else {
                     alert('Erro ao listar categorias!');
@@ -64,6 +65,8 @@ export default function ProdutosForm(props) {
         formData.append('valorProd', valorProd.current.value);
         if (arquivoSelecionado) {
             formData.append('foto', arquivoSelecionado);
+        } else {
+            formData.append('fotoAntiga', produto.foto);
         }
         formData.append('ativo', ativo.current.checked);
         formData.append('descricao', descricao.current.value);
@@ -84,33 +87,50 @@ export default function ProdutosForm(props) {
             .catch(() => alert('Erro ao cadastrar produto!'));
     }
 
-    function alterarProduto() {
+    function alterarProduto(event) {
+        event.preventDefault();
+
         const formData = new FormData();
+
         formData.append('idProd', produto.idProd);
         formData.append('nomeProd', nomeProd.current.value);
         formData.append('idCat', idCat.current.value);
         formData.append('valorProd', valorProd.current.value);
+        formData.append('descricao', descricao.current.value);
+        formData.append('ativo', ativo.current.checked);
+
         if (arquivoSelecionado) {
             formData.append('foto', arquivoSelecionado);
+        } else {
+            formData.append('fotoAntiga', produto.foto);
         }
-        formData.append('ativo', ativo.current.checked);
-        formData.append('descricao', descricao.current.value);
 
         fetch('http://localhost:4000/produto/alterar', {
-            method: 'PUT',
+            method: 'POST',
             credentials: 'include',
             headers: {
                 'chaveapi': chaveApi
             },
             body: formData
         })
-            .then(r => r.json())
+            .then(async (response) => {
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`Erro HTTP ${response.status}: ${text}`);
+                }
+                return response.json();
+            })
             .then(() => {
                 alert('Produto alterado com sucesso!');
                 window.location.href = '/admin/produtos';
             })
-            .catch(() => alert('Erro ao alterar produto!'));
+            .catch((error) => {
+                console.error('Erro na requisição:', error);
+                console.log('Erro ao alterar produto: ' + error.message);
+            });
     }
+
+
 
     function handleArquivoChange(e) {
         const file = e.target.files[0];
@@ -140,9 +160,13 @@ export default function ProdutosForm(props) {
                 <select className="form-control" ref={idCat} defaultValue={produto.idCat}>
                     <option value={0}>Selecione uma categoria</option>
                     {
-                        listaCategoria.map((value, index) => (
-                            <option key={index} value={value.idCat}>{value.nomeCat}</option>
-                        ))
+                        listaCategoria.map(function (value, index) {
+                            if (value.idCat == produto.idCat) {
+                                return <option key={index} value={value.idCat} selected>{value.nomeCat}</option>
+                            } else {
+                                return <option key={index} value={value.idCat}>{value.nomeCat}</option>
+                            }
+                        })
                     }
                 </select>
             </div>

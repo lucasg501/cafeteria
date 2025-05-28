@@ -12,6 +12,21 @@ class ItensComandaController {
         res.status(200).json(listaRetorno);
     }
 
+    
+    async obter(req,res){
+        if(req.params.idComanda != null){
+            let itensComandaModel = new ItensComandaModel();
+            itensComandaModel = await itensComandaModel.obter(req.params.idComanda);
+            let listaRetorno = [];
+            for (let i = 0; i < itensComandaModel.length; i++) {
+                listaRetorno.push(itensComandaModel[i].toJSON());
+            }
+            res.status(200).json(listaRetorno);
+        }else{
+            res.status(400).json("Par‚metros inv·lidos");
+        }
+    } 
+
     async gravar(req,res){
         if(Object.keys(req.body).length > 0){
             let itensComandaModel = new ItensComandaModel();
@@ -29,21 +44,7 @@ class ItensComandaController {
         }else{
             res.status(400).json("Par‚metros inv·lidos");
         }
-    }
-
-    async obter(req,res){
-        if(req.params.idComanda != null){
-            let itensComandaModel = new ItensComandaModel();
-            itensComandaModel = await itensComandaModel.obter(req.params.idComanda);
-            if(itensComandaModel != null){
-                res.status(200).json(itensComandaModel.toJSON());
-            }else{
-                res.status(404).json("Item n„o encontrado!");
-            }
-        }else{
-            res.status(400).json("Par‚metros inv·lidos");
-        }
-    }            
+    }           
 
 }
 

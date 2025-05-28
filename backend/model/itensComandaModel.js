@@ -67,11 +67,11 @@ class itensComandaModel{
         let sql = "select * from itens_comanda where id_comanda = ?";
         let valores = [idComanda];
         let rows = await banco.ExecutaComando(sql, valores);
-        if(rows.length > 0){
-            let itensComanda = new itensComandaModel(rows[0]['id_item'], rows[0]['id_comanda'], rows[0]['id_produto'], rows[0]['quantidade'], rows[0]['valor_unitario']);
-            return itensComanda;
+        let lista = [];
+        for(let i = 0; i < rows.length; i++){
+            lista.push(new itensComandaModel(rows[i]['id_item'], rows[i]['id_comanda'], rows[i]['id_produto'], rows[i]['quantidade'], rows[i]['valor_unitario']));
         }
-        return null;
+        return lista;
     }
 
 }

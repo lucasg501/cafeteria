@@ -60,11 +60,18 @@ class comandaModel {
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         } else {
-            let sql = "update comanda set id_mesa = ?, nome_cliente = ?, valor_total = ?, paga = 'S' where id_comanda = ?";
-            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal, this.#idComanda];
+            let sql = "update comanda set id_mesa = ?, nome_cliente = ?, valor_total = ?, paga = ? where id_comanda = ?";
+            let valores = [this.#idMesa, this.#nomeCliente, this.#valorTotal, this.#paga, this.#idComanda];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         }
+    }
+
+    async marcarPaga(idComanda){
+        let sql = "update comanda set paga = 'S' where id_comanda = ?";
+        let valores = [idComanda];
+        let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
+        return ok;
     }
 
 }

@@ -31,6 +31,23 @@ export default function Comandas() {
         return listaComandas.filter(c => c.paga === filtroPaga);
     }
 
+       function marcarComoPaga(idComanda) {
+        let status = 0;
+        httpClient.put(`/comanda/marcarPaga/${idComanda}`)
+        .then(r=>{
+            status = r.status;
+            return r.json();
+        })
+        .then(r=>{
+            if(status == 200){
+                alert('Comanda marcada como paga com sucesso!');
+                window.location.href = '/admin/comandas';
+            }else{
+                alert('Erro ao marcar comanda como paga!');
+            }
+        })
+    }
+
     useEffect(() => {
         listarComandas();
         listarMesas();
@@ -80,14 +97,24 @@ export default function Comandas() {
                                 <td>{getNumMesa(value.idMesa)}</td>
                                 <td>{value.nomeCliente}</td>
                                 <td>R$ {value.valorTotal}</td>
-                                <td>{value.paga}</td>
+                                <td>{value.paga == 'S' ? 'Sim' : 'Não'}</td>
                                 <td>
-                                    <Link href={`/admin/comandas/alterar/${value.idComanda}`}>
-                                        <button type="button" className="btn btn-primary">Editar</button>
-                                    </Link>
+                                    {
+                                        value.paga == 'N' ?
+                                        <Link href={`/admin/comandas/alterar/${value.idComanda}`}>
+                                            <button type="button" className="btn btn-primary">Editar</button>
+                                        </Link>
+                                        :
+                                        <button disabled type="button" className="btn btn-primary">Editar</button>
+                                    }
                                 </td>
                                 <td>
-                                    <button type="button" className="btn btn-primary">Marcar como paga</button>
+                                    {
+                                        value.paga == 'N' ?
+                                        <button onClick={() => marcarComoPaga(value.idComanda)} type="button" className="btn btn-success">Marcar como paga</button>
+                                        :
+                                        <button disabled type="button" className="btn btn-success">Marcar como paga</button>
+                                    }
                                 </td>
                             </tr>
                         ))

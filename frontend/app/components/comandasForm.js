@@ -6,7 +6,6 @@ export default function ComandasForm(props) {
     const idMesa = useRef(0);
     const nomeCliente = useRef('');
     const valorTotal = useRef(0);
-    const paga = useRef('N');
 
     const [comandas, setComandas] = useState(
         props.comandas ? props.comandas : { idComanda: 0, idMesa: 0, nomeCliente: '', valorTotal: 0, paga: 'N' }
@@ -36,7 +35,7 @@ export default function ComandasForm(props) {
             idMesa: idMesa.current.value,
             nomeCliente: nomeCliente.current.value,
             valorTotal: valorTotal.current.value,
-            paga: paga.current.value
+            paga: comandas.paga
         })
             .then(r => {
                 status = r.status;
@@ -59,30 +58,7 @@ export default function ComandasForm(props) {
             idMesa: idMesa.current.value,
             nomeCliente: nomeCliente.current.value,
             valorTotal: valorTotal.current.value,
-            paga: paga.current.value
-        })
-            .then(r => {
-                status = r.status;
-                return r.json();
-            })
-            .then(r => {
-                if (status == 200) {
-                    alert('Comanda alterada com sucesso!');
-                    window.location.href = '/admin/comandas';
-                } else {
-                    alert('Erro ao alterar comanda!');
-                }
-            })
-    }
-
-    function marcarComoPaga() {
-        let status = 0;
-        httpClient.put('/comanda/alterar', {
-            idComanda: comandas.idComanda,
-            idMesa: idMesa.current.value,
-            nomeCliente: nomeCliente.current.value,
-            valorTotal: valorTotal.current.value,
-            paga: 'S'
+            paga: comandas.paga
         })
             .then(r => {
                 status = r.status;
@@ -147,8 +123,8 @@ export default function ComandasForm(props) {
                         onChange={(e) =>
                             setComandas({ ...comandas, paga: e.target.checked ? 'S' : 'N' })
                         }
-                        ref={paga}
                     /> Paga
+
                 </label>
             </div>
 

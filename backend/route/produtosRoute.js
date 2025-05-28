@@ -37,7 +37,7 @@ router.get('/obter/:idProd', (req,res) =>{
     ctrl.obter(req,res);
 });
 
-router.put('/alterar', upload.single('foto'), (req,res) =>{
+router.post('/alterar', upload.single('foto'), (req,res) =>{
     // #swagger.tags = ['Produtos']
     // #swagger.summary = 'Altera um produto'
     /*

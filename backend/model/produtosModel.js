@@ -47,7 +47,7 @@ class produtosModel {
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;
         } else {
-            let sql = "update produto set nome_produto = ?, id_cat = ?, valor = ?, foto = ?, ativo = ?, descricao = ?, id_Catadc = ? where id_produto = ?";
+            let sql = "update produto set nome_produto = ?, id_cat = ?, valor = ?, foto = ?, ativo = ?, descricao = ? where id_produto = ?";
             let valores = [this.#nomeProd, this.#idCat, this.#valorProd, this.#foto, this.#ativo, this.#descricao, this.#idProd];
             let ok = await Banco.ExecutaComandoNonQuery(sql, valores);
             return ok;

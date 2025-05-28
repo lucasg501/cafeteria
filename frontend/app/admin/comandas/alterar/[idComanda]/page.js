@@ -7,7 +7,7 @@ export default function alterarComanda({params}){
 
     const {idComanda} = use(params);
 
-    const [listaComandas,setListaComandas] = useState([]);
+    const [listaComandas,setListaComandas] = useState(null);
 
     function carregarComandas(){
         let status = 0;

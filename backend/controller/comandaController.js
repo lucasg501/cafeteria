@@ -63,6 +63,16 @@ class comandaController{
             res.status(400).json("Par‚metros inv·lidos");
         }
     }
+
+    async marcarPaga(req,res){
+        let comandaModel = new ComandaModel();
+        let ok = await comandaModel.marcarPaga(req.params.idComanda);
+        if(ok){
+            res.status(200).json("Comanda marcada como paga com sucesso!");
+        }else{
+            res.status(500).json("Erro ao marcar comanda como paga!");
+        }
+    }
 }
 
 module.exports = comandaController;

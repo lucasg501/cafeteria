@@ -6,6 +6,24 @@ export default function AdminLayout({ children }) {
   const [listaComandas, setListaComandas] = useState([]);
   const [itensComanda, setItensComanda] = useState([]);
   const [comandaAberta, setComandaAberta] = useState(null);
+  const [listaProdutos, setListaProdutos] = useState([]);
+  const [listaMesas, setListaMesas] = useState([]);
+
+  function listarMesas() {
+    let status = 0;
+    httpClient.get('/mesa/listar')
+      .then(r => {
+        status = r.status;
+        return r.json();
+      })
+      .then(r => {
+        if (status === 200) {
+          setListaMesas(r);
+        } else {
+          alert('Erro ao listar mesas!');
+        }
+      });
+  }
 
   function listarComandas() {
     httpClient.get('/comanda/listar')
@@ -17,6 +35,37 @@ export default function AdminLayout({ children }) {
       .catch(() => alert('Erro ao listar comandas!'));
   }
 
+  function getNomeProduto(idProduto) {
+    const produto = listaProdutos.find(p => p.idProd === idProduto);
+    return produto ? produto.nomeProd : '';
+  }
+
+  function getNumMesa(idMesa) {
+    const mesa = listaMesas.find(m => m.idMesa == idMesa);
+    return mesa ? mesa.numMesa : 'Mesa não encontrada';
+  }
+
+  function listarProdutos() {
+    let status = 0;
+    httpClient.get('/produto/listar')
+      .then(r => {
+        status = r.status;
+        return r.json();
+      })
+      .then(r => {
+        if (status === 200) {
+          setListaProdutos(r);
+        } else {
+          alert('Erro ao listar produtos!');
+        }
+      });
+  }
+
+  useEffect(() => {
+    listarProdutos();
+    listarMesas();
+  }, []);
+
   function buscarItensComanda(idComanda) {
     let status = 0;
     httpClient.get(`/itensComanda/obter/${idComanda}`)
@@ -25,15 +74,13 @@ export default function AdminLayout({ children }) {
         return r.json();
       })
       .then(r => {
-        console.log('Itens recebidos:', r); // <--- ADICIONE AQUI
-        if (status == 200) {
+        if (status === 200) {
           setItensComanda(r);
         } else {
           alert('Erro ao buscar itens da comanda!');
         }
       });
   }
-
 
   function handleClickLinha(idComanda) {
     if (comandaAberta === idComanda) {
@@ -42,6 +89,12 @@ export default function AdminLayout({ children }) {
       setComandaAberta(idComanda);
       buscarItensComanda(idComanda);
     }
+  }
+
+  function calcularTotalComanda(itens) {
+    return itens.reduce((total, item) => {
+      return total + item.valorUn * item.quantidadeComanda;
+    }, 0).toFixed(2);
   }
 
   useEffect(() => {
@@ -74,9 +127,13 @@ export default function AdminLayout({ children }) {
                   style={{ cursor: 'pointer' }}
                 >
                   <td>{comanda.idComanda}</td>
-                  <td>{comanda.idMesa}</td>
+                  <td>{getNumMesa(comanda.idMesa)}</td>
                   <td>{comanda.nomeCliente}</td>
-                  <td>R$ {comanda.valorTotal}</td>
+                  <td>
+                    {comandaAberta === comanda.idComanda
+                      ? `R$ ${calcularTotalComanda(itensComanda)}`
+                      : 'Clique para ver'}
+                  </td>
                   <td>{comanda.paga === 'S' ? 'Sim' : 'Não'}</td>
                   <td>
                     <button className='btn btn-success'>Baixar</button>
@@ -89,17 +146,26 @@ export default function AdminLayout({ children }) {
                       <strong>Itens da comanda:</strong>
                       {itensComanda.length > 0 ? (
                         <ul>
-                          {
-                            itensComanda.map(function (value, index) {
-                              return (
-                                <ol key={index}>
-                                  <li>Produto: {value.idProduto}</li>
-                                  <li>Quantidade: {value.quantidadeComanda}</li>
-                                  <li>Preço: R$ {value.valorUn * value.quantidadeComanda}</li>
-                                </ol>
-                              )
-                            })
-                          }
+                          {itensComanda.map((value, index) => (
+                            <ul
+                              key={index}
+                              style={{
+                                borderBottom: '1px solid #ccc',
+                                listStyle: 'none',
+                                marginBottom: '10px',
+                              }}
+                            >
+                              <li>Produto: {getNomeProduto(value.idProduto)}</li>
+                              <li>Quantidade: {value.quantidadeComanda}</li>
+                              <li>
+                                Preço: R${' '}
+                                {(value.valorUn * value.quantidadeComanda).toFixed(2)}
+                              </li>
+                            </ul>
+                          ))}
+                          <li style={{listStyle: 'none'}}>
+                            <strong>Total: R$ {calcularTotalComanda(itensComanda)}</strong>
+                          </li>
                         </ul>
                       ) : (
                         <p>Nenhum item encontrado.</p>

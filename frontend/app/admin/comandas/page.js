@@ -101,7 +101,7 @@ export default function Comandas() {
                                 <td>
                                     {
                                         value.paga == 'N' ?
-                                        <Link href={`/admin/comandas/alterar/${value.idComanda}`}>
+                                        <Link href={`/admin/itensComanda/alterar/${value.idComanda}`}>
                                             <button type="button" className="btn btn-primary">Editar</button>
                                         </Link>
                                         :

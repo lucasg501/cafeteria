@@ -33,8 +33,8 @@ class ItensComandaController {
             itensComandaModel.idItem = 0;
             itensComandaModel.idComanda = req.body.idComanda;
             itensComandaModel.idProduto = req.body.idProduto;
-            itensComandaModel.quantidadeComanda = req.body.quantidadeComanda;
-            itensComandaModel.valorUn = req.body.valorUn;
+            itensComandaModel.quantidadeComanda = req.body.quantidade;
+            itensComandaModel.valorUn = req.body.valorUnitario;
             let ok = await itensComandaModel.gravar();
             if(ok){
                 res.status(200).json("Item incluido com sucesso!");

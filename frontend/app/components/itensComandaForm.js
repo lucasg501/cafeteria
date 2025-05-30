@@ -5,6 +5,7 @@ import Link from "next/link";
 export default function ItensComandaForm(props) {
     const idProduto = useRef(null);
     const quantidadeComanda = useRef(null);
+    const adicionaisSelecionadosRef = useRef([]);
 
     const [comanda, setComanda] = useState(
         props.comanda
@@ -14,33 +15,33 @@ export default function ItensComandaForm(props) {
 
     const [listaComandas, setListaComandas] = useState([]);
     const [listaProdutos, setListaProdutos] = useState([]);
-    const [listaCategorias, setListaCategorias] = useState([]);
     const [itensTemp, setItensTemp] = useState([]);
+    const [adicionais, setAdicionais] = useState([]);
 
     useEffect(() => {
         listarComandas();
         listarProdutos();
-        listarCategorias();
+        listarAdicionais();
     }, []);
 
-    function listarCategorias() {
-        httpClient.get('/categoria/listar')
+    function listarAdicionais() {
+        httpClient.get('/adicionais/listar')
             .then(r => r.json())
-            .then(r => setListaCategorias(r))
-            .catch(() => alert('Erro ao listar categorias!'));
+            .then(setAdicionais)
+            .catch(() => alert('Erro ao listar adicionais!'));
     }
 
     function listarComandas() {
         httpClient.get('/comanda/listar')
             .then(r => r.json())
-            .then(r => setListaComandas(r))
+            .then(setListaComandas)
             .catch(() => alert('Erro ao listar comandas!'));
     }
 
     function listarProdutos() {
         httpClient.get('/produto/listar')
             .then(r => r.json())
-            .then(r => setListaProdutos(r))
+            .then(setListaProdutos)
             .catch(() => alert('Erro ao listar produtos!'));
     }
 
@@ -59,19 +60,29 @@ export default function ItensComandaForm(props) {
             return;
         }
 
+        const adicionaisSelecionados = adicionais.filter(ad =>
+            adicionaisSelecionadosRef.current.includes(String(ad.idAdc))
+        );
+
+        const valorAdicionaisTotal = adicionaisSelecionados.reduce((soma, ad) => soma + ad.valorAdc, 0);
+        const valorUnitarioComAdicionais = produtoSelecionado.valorProd + valorAdicionaisTotal;
+        const subtotal = qtd * valorUnitarioComAdicionais;
+
         const novoItem = {
             idProduto: idProd,
             nomeProduto: produtoSelecionado.nomeProd,
             quantidade: qtd,
-            valorUnitario: produtoSelecionado.valorProd,
-            subtotal: qtd * produtoSelecionado.valorProd
+            valorUnitario: valorUnitarioComAdicionais,
+            subtotal,
+            adicionais: adicionaisSelecionados
         };
 
         setItensTemp([...itensTemp, novoItem]);
 
-        // Limpar campos
+        // Reset
         idProduto.current.value = 0;
         quantidadeComanda.current.value = '';
+        adicionaisSelecionadosRef.current = [];
     }
 
     function gravarComanda() {
@@ -81,25 +92,49 @@ export default function ItensComandaForm(props) {
         }
 
         const id = comanda.idComanda;
-
         if (!id || id === 0) {
             alert("Comanda inválida.");
             return;
         }
 
-        const requisicoes = itensTemp.map(item => {
-            return httpClient.post('/itensComanda/gravar', {
+        const requisicoes = itensTemp.map(async (item) => {
+            const resposta = await httpClient.post('/itensComanda/gravar', {
                 idComanda: id,
                 idProduto: item.idProduto,
                 quantidade: item.quantidade,
                 valorUnitario: item.valorUnitario
             });
+
+            if (resposta.status === 200) {
+                const data = await resposta.json();
+                const idItem = data.idItem;
+
+                // Grava os adicionais
+                const adicionais = item.adicionais || [];
+
+                const requisicoesAdicionais = [];
+                adicionais.forEach(ad => {
+                    for (let i = 0; i < item.quantidade; i++) {
+                        requisicoesAdicionais.push(
+                            httpClient.post('/itensComandaAdc/gravar', {
+                                idItem,
+                                idAdc: ad.idAdc
+                            })
+                        );
+                    }
+                });
+
+                await Promise.all(requisicoesAdicionais);
+                return true;
+            }
+
+            return false;
         });
 
         Promise.all(requisicoes)
-            .then(respostas => {
-                const todasComSucesso = respostas.every(r => r.status === 200);
-                if (todasComSucesso) {
+            .then(results => {
+                const sucesso = results.every(ok => ok === true);
+                if (sucesso) {
                     alert('Comanda gravada com sucesso!');
                     window.location.href = "/admin/comandas";
                 } else {
@@ -112,9 +147,10 @@ export default function ItensComandaForm(props) {
             });
     }
 
+
     return (
         <div>
-            <div><h1>Itens da Comanda</h1></div>
+            <h1>Itens da Comanda</h1>
 
             <div className="form-group">
                 <label>Comanda</label>
@@ -126,8 +162,8 @@ export default function ItensComandaForm(props) {
                     className="form-control"
                 >
                     <option value={0}>Selecione uma comanda</option>
-                    {listaComandas.map((value, index) => (
-                        <option key={index} value={value.idComanda}>
+                    {listaComandas.map((value) => (
+                        <option key={value.idComanda} value={value.idComanda}>
                             {value.idComanda}
                         </option>
                     ))}
@@ -138,59 +174,84 @@ export default function ItensComandaForm(props) {
                 <label>Produto</label>
                 <select ref={idProduto} className="form-control">
                     <option value={0}>Selecione um produto</option>
-                    {listaProdutos.map((value, index) => (
-                        <option key={index} value={value.idProd}>
+                    {listaProdutos.map((value) => (
+                        <option key={value.idProd} value={value.idProd}>
                             {value.nomeProd}
                         </option>
                     ))}
                 </select>
             </div>
 
-            <div style={{ width: '30%' }} className="form-group">
+            <div className="form-group">
                 <label>Quantidade</label>
                 <input type="number" ref={quantidadeComanda} className="form-control" min="1" />
             </div>
 
             <div className="form-group">
-                <button type="button" className="btn btn-primary" onClick={adicionarItem}>
-                    Adicionar
-                </button>
+                <label>Adicionais</label>
+                <select
+                    multiple
+                    className="form-control"
+                    onChange={(e) => {
+                        adicionaisSelecionadosRef.current = Array.from(e.target.selectedOptions, o => o.value);
+                    }}
+                >
+                    {adicionais.map(ad => (
+                        <option key={ad.idAdc} value={ad.idAdc}>
+                            {ad.nomeAdc} (R$ {ad.valorAdc.toFixed(2)})
+                        </option>
+                    ))}
+                </select>
             </div>
+
+            <button type="button" className="btn btn-primary" onClick={adicionarItem}>
+                Adicionar
+            </button>
 
             <hr />
 
-            <div>
-                <h5>Itens Adicionados</h5>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Quantidade</th>
-                            <th>Valor Unitário</th>
-                            <th>Subtotal</th>
+            <h5>Itens Adicionados</h5>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Subtotal</th>
+                        <th>Adicionais</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {itensTemp.map((item, index) => (
+                        <tr key={index}>
+                            <td>{item.nomeProduto}</td>
+                            <td>{item.quantidade}</td>
+                            <td>R$ {item.valorUnitario.toFixed(2)}</td>
+                            <td>R$ {item.subtotal.toFixed(2)}</td>
+                            <td>
+                                {item.adicionais && item.adicionais.length > 0 ? (
+                                    <ul style={{ marginBottom: 0 }}>
+                                        {item.adicionais.map((ad, i) => (
+                                            <li key={i}>
+                                                {ad.nomeAdc} (R$ {ad.valorAdc.toFixed(2)})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    '—'
+                                )}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {itensTemp.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.nomeProduto}</td>
-                                <td>{item.quantidade}</td>
-                                <td>R$ {item.valorUnitario.toFixed(2)}</td>
-                                <td>R$ {item.subtotal.toFixed(2)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
 
-            <div>
-                <button className="btn btn-success" onClick={gravarComanda}>
-                    Gravar Comanda
-                </button>
-                <a href="/admin/comandas" className="btn btn-danger" style={{ marginLeft: '10px' }}>
-                    Cancelar
-                </a>
-            </div>
+            <button className="btn btn-success" onClick={gravarComanda}>
+                Gravar Comanda
+            </button>
+            <a href="/admin/comandas" className="btn btn-danger" style={{ marginLeft: '10px' }}>
+                Cancelar
+            </a>
         </div>
     );
 }
